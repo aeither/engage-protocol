@@ -1,7 +1,6 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import Header from '../components/Header'
-import { TestnetNotice } from '../components/TestnetNotice'
 
 interface Quiz {
   id: string;
@@ -140,9 +139,6 @@ function HomePage() {
           </div>
         </div>
 
-        {/* Testnet Notice */}
-        <TestnetNotice />
-        
         {/* Quiz Categories */}
         <div id="topics" className="mb-8 sm:mb-12">
           {/* General Knowledge Section */}
