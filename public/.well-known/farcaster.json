@@ -1,0 +1,20 @@
+{
+  "frame": {
+    "name": "DailyWiser",
+    "version": "1",
+    "iconUrl": "https://dailywiser.vercel.app/icon.png",
+    "homeUrl": "https://dailywiser.vercel.app",
+    "imageUrl": "https://dailywiser.vercel.app/quiz-preview.jpeg",
+    "splashImageUrl": "https://dailywiser.vercel.app/splash.jpeg",
+    "splashBackgroundColor": "#6200EA",
+    "webhookUrl": "https://dailywiser.vercel.app/api/webhook",
+    "subtitle": "Interactive learning",
+    "description": "DailyWiser is a decentralized learning platform built for the Solana ecosystem.",
+    "primaryCategory": "education"
+  },
+  "accountAssociation": {
+    "header": "eyJmaWQiOjIxNjM4MywidHlwZSI6ImF1dGgiLCJrZXkiOiIweENhMDU3RDcxRWY1NDE5RDZDNzhlNTI3MTU2NUFDZEMwMzAxZjA0ODAifQ",
+    "payload": "eyJkb21haW4iOiJkYWlseXdpc2VyLnZlcmNlbC5hcHAifQ",
+    "signature": "Uy+H2EVKBlVeWEk5x9AYnZdeAtzlpMfUSTvUDheCml4qxh2c9WTEPNQqgJUoYfBBcwdoKGi9N73mWH5gZn+xPRs="
+  }
+}

@@ -1,0 +1,31 @@
+[features]
+seeds = false
+skip-lint = false
+
+[programs.localnet]
+quiz_game = "2wSzeesj4BVQtrzLDSR3YdqZ1nDnDtWV1E8tNpvJimZk"
+
+[programs.testnet]
+quiz_game = "2wSzeesj4BVQtrzLDSR3YdqZ1nDnDtWV1E8tNpvJimZk"
+
+[programs.devnet]
+quiz_game = "2wSzeesj4BVQtrzLDSR3YdqZ1nDnDtWV1E8tNpvJimZk"
+
+[registry]
+url = "https://api.apr.dev"
+
+[toolchain]
+anchor_version = "0.31.1"
+
+[provider]
+cluster = "Testnet"
+wallet = "~/.config/solana/id.json"
+
+[scripts]
+test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
+
+[build]
+command = "cargo build-bpf"
+
+[test]
+startup_wait = 5000

@@ -1,0 +1,23 @@
+[package]
+name = "quiz-game"
+version = "0.1.0"
+edition = "2021"
+description = "DailyWiser Quiz Game - Learn and earn SOL rewards"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "quiz_game"
+
+[features]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+cpi = ["no-entrypoint"]
+default = []
+
+[dependencies]
+anchor-lang = "0.31.1"
+anchor-spl = "0.31.1"
+
+[dev-dependencies]
+# Removed to avoid version conflicts - can be re-added later for testing
