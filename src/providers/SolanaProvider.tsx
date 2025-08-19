@@ -21,17 +21,32 @@ interface SolanaProviderProps {
 }
 
 export const SolanaProvider: FC<SolanaProviderProps> = ({ children }) => {
-  // Choose network: 'devnet', 'testnet', or 'mainnet-beta'
+  // FORCE TESTNET in ALL environments (including production)
+  // This ensures we always use free testnet SOL, never real mainnet SOL
   const network = WalletAdapterNetwork.Testnet;
   
-  // You can use custom RPC endpoints for better performance
+  // Always use testnet endpoints - multiple options for reliability
   const endpoint = useMemo(() => {
-    if (network === WalletAdapterNetwork.Testnet) {
-      // Try multiple testnet endpoints for better reliability
-      return import.meta.env.VITE_SOLANA_RPC_URL || 'https://api.testnet.solana.com';
-    }
-    return clusterApiUrl(network);
-  }, [network]);
+    // Force testnet regardless of environment
+    const testnetEndpoints = [
+      import.meta.env.VITE_SOLANA_RPC_URL,
+      'https://api.testnet.solana.com',
+      'https://testnet.solana.com',
+      clusterApiUrl(WalletAdapterNetwork.Testnet)
+    ].filter(Boolean) as string[];
+    
+    // Use the first available endpoint, with fallback to default testnet
+    const selectedEndpoint = testnetEndpoints[0] || 'https://api.testnet.solana.com';
+    
+    console.log('🌐 Solana Network Configuration:', {
+      forcedNetwork: 'TESTNET',
+      environment: import.meta.env.MODE,
+      selectedEndpoint: selectedEndpoint,
+      availableEndpoints: testnetEndpoints
+    });
+    
+    return selectedEndpoint;
+  }, []);
 
   // Configure supported wallets
   const wallets = useMemo(

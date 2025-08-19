@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { motion } from 'framer-motion'
+import { TestnetNotice } from '../components/TestnetNotice'
 
 function LandingPage() {
   return (
@@ -71,6 +72,8 @@ function LandingPage() {
         {/* What You'll Unlock Section */}
         <div className="py-24 px-8">
           <div className="max-w-6xl mx-auto">
+            {/* Testnet Notice */}
+            <TestnetNotice />
             {/* Section Header */}
             <motion.div 
               className="text-center mb-16"

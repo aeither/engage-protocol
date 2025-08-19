@@ -35,7 +35,14 @@ export const EnvironmentStatus = () => {
         <div className="flex items-center justify-between">
           <span>Network:</span>
           <span className="font-mono text-xs bg-gray-100 px-2 py-1 rounded max-w-32 truncate">
-            {connection.rpcEndpoint.includes('testnet') ? '✅ Testnet' : '⚠️ Other'}
+            {connection.rpcEndpoint.includes('testnet') ? '✅ TESTNET' : '❌ NOT TESTNET'}
+          </span>
+        </div>
+        
+        <div className="flex items-center justify-between">
+          <span>RPC Endpoint:</span>
+          <span className="font-mono text-xs bg-blue-50 px-2 py-1 rounded max-w-40 truncate" title={connection.rpcEndpoint}>
+            {connection.rpcEndpoint}
           </span>
         </div>
         
@@ -56,6 +63,16 @@ export const EnvironmentStatus = () => {
         </div>
       </div>
       
+      {/* Network Warning */}
+      {!connection.rpcEndpoint.includes('testnet') && (
+        <div className="mt-3 p-3 bg-red-50 border border-red-200 rounded text-sm">
+          <strong>🚨 CRITICAL: Wrong Network!</strong>
+          <p className="mt-1">You're connected to <strong>{connection.rpcEndpoint.includes('mainnet') ? 'MAINNET' : 'UNKNOWN NETWORK'}</strong> instead of TESTNET.</p>
+          <p className="mt-1 text-red-600">Switch to Testnet in your wallet or this app won't work!</p>
+        </div>
+      )}
+      
+      {/* Action Required */}
       {(!connected || balance === null || balance <= 0.001) && (
         <div className="mt-3 p-3 bg-yellow-50 border border-yellow-200 rounded text-sm">
           <strong>⚠️ Action Required:</strong>
@@ -65,6 +82,14 @@ export const EnvironmentStatus = () => {
               <li>Get testnet SOL: <a href="https://faucet.solana.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">faucet.solana.com</a></li>
             )}
           </ul>
+        </div>
+      )}
+      
+      {/* Success Message */}
+      {connected && balance !== null && balance > 0.001 && connection.rpcEndpoint.includes('testnet') && (
+        <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded text-sm">
+          <strong>✅ Ready to Play!</strong>
+          <p className="mt-1">You're connected to TESTNET with sufficient SOL balance. Quiz transactions will work!</p>
         </div>
       )}
     </div>
