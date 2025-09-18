@@ -20,6 +20,8 @@ function App() {
 
   useEffect(() => {
     setMounted(true)
+    // Apply dark theme by default
+    document.documentElement.classList.add('dark')
   }, [])
 
   if (!mounted) {
@@ -31,13 +33,13 @@ function App() {
       <SolanaProvider>
         <RouterProvider router={router} />
         <Toaster 
-          theme="light"
+          theme="dark"
           position="bottom-right"
           toastOptions={{
             style: {
-              background: '#ffffff',
-              border: '1px solid #e5e7eb',
-              color: '#1f2937',
+              background: 'hsl(220, 25%, 12%)',
+              border: '1px solid hsl(220, 25%, 20%)',
+              color: 'hsl(210, 40%, 98%)',
               borderRadius: '12px'
             },
           }}

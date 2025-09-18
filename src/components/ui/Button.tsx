@@ -1,41 +1,37 @@
-interface ButtonProps {
-  children: React.ReactNode;
-  onClick?: () => void;
-  variant?: 'primary' | 'secondary' | 'outline';
+import React from "react";
+
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'default' | 'primary' | 'secondary' | 'outline' | 'ghost';
   size?: 'sm' | 'md' | 'lg';
-  disabled?: boolean;
-  className?: string;
 }
 
 export function Button({ 
   children, 
-  onClick, 
-  variant = 'primary', 
+  variant = 'default', 
   size = 'md', 
-  disabled = false,
-  className = ''
+  className = '',
+  ...props
 }: ButtonProps) {
-  const baseClasses = "font-semibold rounded-2xl transition-all duration-300 cursor-pointer";
+  const baseClasses = "inline-flex items-center justify-center font-semibold rounded-lg transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed";
   
   const variantClasses = {
-    primary: "bg-gradient-primary text-primary-foreground quiz-button-glow hover:scale-105 hover:animate-pulse-glow",
-    secondary: "bg-secondary text-secondary-foreground border-2 border-primary/30 hover:bg-primary hover:text-primary-foreground hover:scale-105",
-    outline: "bg-transparent text-primary border-2 border-primary hover:bg-primary hover:text-primary-foreground hover:scale-105"
+    default: "bg-gradient-primary text-white hover:opacity-90",
+    primary: "bg-gradient-primary text-white hover:opacity-90",
+    secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+    outline: "border border-primary text-primary hover:bg-primary hover:text-white",
+    ghost: "text-primary hover:bg-primary/10"
   };
   
   const sizeClasses = {
-    sm: "px-4 py-2 text-sm",
-    md: "px-6 py-3 text-base",
-    lg: "px-8 py-4 text-lg"
+    sm: "px-3 py-2 text-sm h-8",
+    md: "px-4 py-2 text-sm h-10",
+    lg: "px-6 py-3 text-base h-12"
   };
-  
-  const disabledClasses = disabled ? "opacity-50 cursor-not-allowed" : "";
   
   return (
     <button 
-      onClick={onClick}
-      disabled={disabled}
-      className={`${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${disabledClasses} ${className}`}
+      className={`${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`}
+      {...props}
     >
       {children}
     </button>

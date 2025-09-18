@@ -5,7 +5,7 @@ import { useWallet } from '@solana/wallet-adapter-react'
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
 import { toast } from 'sonner'
 import { useSolana } from '../hooks/useSolana'
-import GlobalHeader from '../components/GlobalHeader'
+import { Header } from '../components/Header'
 import { DebugPanel } from '../components/DebugPanel'
 import { EnvironmentStatus } from '../components/EnvironmentStatus'
 
@@ -817,7 +817,7 @@ function QuizGame() {
   if (!quizId || (!quizConfig && quizId !== 'ai-generated' && quizId !== 'ai-protocols')) {
     return (
       <motion.div style={{ paddingTop: '80px' }} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-        <GlobalHeader />
+        <Header />
         <div style={{ maxWidth: "600px", margin: "0 auto", padding: "2rem", textAlign: "center" }}>
           <h2 style={{ color: "#111827", marginBottom: "1rem" }}>Quiz Not Found</h2>
           <p style={{ color: "#6b7280", marginBottom: "2rem" }}>
@@ -852,7 +852,7 @@ function QuizGame() {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        <GlobalHeader />
+        <Header />
         <div style={{
           maxWidth: "600px",
           margin: "0 auto",
@@ -954,7 +954,7 @@ function QuizGame() {
   if (hasActiveQuiz && activeQuizId && activeQuizId !== quizId) {
     return (
       <motion.div style={{ paddingTop: '80px' }} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-        <GlobalHeader />
+        <Header />
         <div style={{ maxWidth: "600px", margin: "0 auto", padding: "2rem", textAlign: "center" }}>
           <h2 style={{ color: "#111827", marginBottom: "1rem" }}>Active Quiz Session</h2>
           <p style={{ color: "#6b7280", marginBottom: "2rem" }}>
@@ -1005,7 +1005,7 @@ function QuizGame() {
       // AI Challenge completion screen
       return (
         <div style={{ paddingTop: '80px' }}>
-          <GlobalHeader />
+          <Header />
           <div style={{
             maxWidth: "600px",
             margin: "0 auto",
@@ -1158,7 +1158,7 @@ function QuizGame() {
       // Regular quiz completion screen
       return (
         <div style={{ paddingTop: '80px' }}>
-          <GlobalHeader />
+          <Header />
           <div style={{
             maxWidth: "600px",
             margin: "0 auto",
@@ -1227,7 +1227,7 @@ function QuizGame() {
     
     return (
       <div style={{ paddingTop: '80px' }}>
-        <GlobalHeader />
+        <Header />
         <div style={{
           maxWidth: "600px",
           margin: "0 auto",
@@ -1452,7 +1452,7 @@ function QuizGame() {
   // Main quiz start interface
   return (
     <motion.div style={{ paddingTop: '80px' }} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      <GlobalHeader />
+      <Header />
       <DebugPanel />
       <div style={{
         maxWidth: "600px",

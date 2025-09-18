@@ -1,10 +1,10 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import GlobalHeader from '../components/GlobalHeader';
+import { Header } from '../components/Header';
 
 function ContractDebugPage() {
   return (
-    <div style={{ paddingTop: '80px' }}>
-      <GlobalHeader showBackButton backTo="/landing" backText="← Back to Landing" />
+    <div>
+      <Header />
       
       <div className="max-w-4xl mx-auto p-8">
         <div className="text-center mb-8">

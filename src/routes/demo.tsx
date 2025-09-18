@@ -1,17 +1,16 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { motion } from 'framer-motion';
-import GlobalHeader from '../components/GlobalHeader';
+import { Header } from '../components/Header';
 
 function DemoPage() {
   return (
-    <div style={{ paddingTop: '80px' }}>
-      <GlobalHeader />
+    <div>
+      <Header />
       <div className="max-w-4xl mx-auto p-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-4">🎮 DailyWiser Demo</h1>
+          <h1 className="text-4xl font-bold mb-4">🎮 Engage Protocol Demo</h1>
           <p className="text-lg text-muted-foreground mb-6">
-            Experience the full DailyWiser journey on Solana
+            Experience the full Engage Protocol journey on Solana
           </p>
           
           <Link

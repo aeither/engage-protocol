@@ -9,14 +9,28 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WinnersRouteImport } from './routes/winners'
+import { Route as TwitterRouteImport } from './routes/twitter'
 import { Route as SolanaDemoRouteImport } from './routes/solana-demo'
 import { Route as QuizGameRouteImport } from './routes/quiz-game'
 import { Route as LandingRouteImport } from './routes/landing'
+import { Route as IndexDailywiserRouteImport } from './routes/index-dailywiser'
 import { Route as FarcasterRouteImport } from './routes/farcaster'
 import { Route as DemoRouteImport } from './routes/demo'
 import { Route as ContractRouteImport } from './routes/contract'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 
+const WinnersRoute = WinnersRouteImport.update({
+  id: '/winners',
+  path: '/winners',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TwitterRoute = TwitterRouteImport.update({
+  id: '/twitter',
+  path: '/twitter',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SolanaDemoRoute = SolanaDemoRouteImport.update({
   id: '/solana-demo',
   path: '/solana-demo',
@@ -30,6 +44,11 @@ const QuizGameRoute = QuizGameRouteImport.update({
 const LandingRoute = LandingRouteImport.update({
   id: '/landing',
   path: '/landing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndexDailywiserRoute = IndexDailywiserRouteImport.update({
+  id: '/index-dailywiser',
+  path: '/index-dailywiser',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FarcasterRoute = FarcasterRouteImport.update({
@@ -47,6 +66,11 @@ const ContractRoute = ContractRouteImport.update({
   path: '/contract',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -55,74 +79,116 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/contract': typeof ContractRoute
   '/demo': typeof DemoRoute
   '/farcaster': typeof FarcasterRoute
+  '/index-dailywiser': typeof IndexDailywiserRoute
   '/landing': typeof LandingRoute
   '/quiz-game': typeof QuizGameRoute
   '/solana-demo': typeof SolanaDemoRoute
+  '/twitter': typeof TwitterRoute
+  '/winners': typeof WinnersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/contract': typeof ContractRoute
   '/demo': typeof DemoRoute
   '/farcaster': typeof FarcasterRoute
+  '/index-dailywiser': typeof IndexDailywiserRoute
   '/landing': typeof LandingRoute
   '/quiz-game': typeof QuizGameRoute
   '/solana-demo': typeof SolanaDemoRoute
+  '/twitter': typeof TwitterRoute
+  '/winners': typeof WinnersRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/contract': typeof ContractRoute
   '/demo': typeof DemoRoute
   '/farcaster': typeof FarcasterRoute
+  '/index-dailywiser': typeof IndexDailywiserRoute
   '/landing': typeof LandingRoute
   '/quiz-game': typeof QuizGameRoute
   '/solana-demo': typeof SolanaDemoRoute
+  '/twitter': typeof TwitterRoute
+  '/winners': typeof WinnersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/contract'
     | '/demo'
     | '/farcaster'
+    | '/index-dailywiser'
     | '/landing'
     | '/quiz-game'
     | '/solana-demo'
+    | '/twitter'
+    | '/winners'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin'
     | '/contract'
     | '/demo'
     | '/farcaster'
+    | '/index-dailywiser'
     | '/landing'
     | '/quiz-game'
     | '/solana-demo'
+    | '/twitter'
+    | '/winners'
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/contract'
     | '/demo'
     | '/farcaster'
+    | '/index-dailywiser'
     | '/landing'
     | '/quiz-game'
     | '/solana-demo'
+    | '/twitter'
+    | '/winners'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
   ContractRoute: typeof ContractRoute
   DemoRoute: typeof DemoRoute
   FarcasterRoute: typeof FarcasterRoute
+  IndexDailywiserRoute: typeof IndexDailywiserRoute
   LandingRoute: typeof LandingRoute
   QuizGameRoute: typeof QuizGameRoute
   SolanaDemoRoute: typeof SolanaDemoRoute
+  TwitterRoute: typeof TwitterRoute
+  WinnersRoute: typeof WinnersRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/winners': {
+      id: '/winners'
+      path: '/winners'
+      fullPath: '/winners'
+      preLoaderRoute: typeof WinnersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/twitter': {
+      id: '/twitter'
+      path: '/twitter'
+      fullPath: '/twitter'
+      preLoaderRoute: typeof TwitterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/solana-demo': {
       id: '/solana-demo'
       path: '/solana-demo'
@@ -142,6 +208,13 @@ declare module '@tanstack/react-router' {
       path: '/landing'
       fullPath: '/landing'
       preLoaderRoute: typeof LandingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/index-dailywiser': {
+      id: '/index-dailywiser'
+      path: '/index-dailywiser'
+      fullPath: '/index-dailywiser'
+      preLoaderRoute: typeof IndexDailywiserRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/farcaster': {
@@ -165,6 +238,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContractRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -177,12 +257,16 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
   ContractRoute: ContractRoute,
   DemoRoute: DemoRoute,
   FarcasterRoute: FarcasterRoute,
+  IndexDailywiserRoute: IndexDailywiserRoute,
   LandingRoute: LandingRoute,
   QuizGameRoute: QuizGameRoute,
   SolanaDemoRoute: SolanaDemoRoute,
+  TwitterRoute: TwitterRoute,
+  WinnersRoute: WinnersRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

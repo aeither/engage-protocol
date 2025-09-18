@@ -4,7 +4,7 @@ import { useSolana } from '../hooks/useSolana';
 import { SolanaWalletConnection } from '../components/SolanaWalletConnection';
 import { toast } from 'sonner';
 import { PublicKey } from '@solana/web3.js';
-import GlobalHeader from '../components/GlobalHeader';
+import { Header } from '../components/Header';
 
 function SolanaDemoPage() {
   const { sendSOL, requestAirdrop, getBalance, balance, loading, connected, publicKey, connection } = useSolana();
@@ -75,8 +75,8 @@ function SolanaDemoPage() {
   };
 
   return (
-    <div style={{ paddingTop: '80px' }}>
-      <GlobalHeader showBackButton backTo="/landing" backText="← Back to Landing" />
+    <div>
+      <Header />
       
       <div className="max-w-6xl mx-auto p-8">
         {/* Header */}

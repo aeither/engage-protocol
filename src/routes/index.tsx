@@ -1,242 +1,197 @@
-import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
-import { useState } from 'react'
-import Header from '../components/Header'
-
-interface Quiz {
-  id: string;
-  title: string;
-  description: string;
-  icon: string;
-  questions: number;
-  estimatedTime: string;
-  category: string;
-}
-
-// General Knowledge Quizzes
-const GENERAL_KNOWLEDGE_QUIZZES: Quiz[] = [
-  {
-    id: "ai-generated",
-    title: "AI Generated Quiz",
-    description: "Face a randomly generated quiz on blockchain fundamentals, Web3 gaming, Layer 2 solutions, and metaverse concepts",
-    icon: "🤖",
-    questions: 3,
-    estimatedTime: "1-2 min",
-    category: "AI Generated"
-  },
-  {
-    id: "solana-fundamentals",
-    title: "Solana Fundamentals",
-    description: "Master the basics of Solana blockchain, SPL tokens, and the Solana ecosystem",
-    icon: "⚡",
-    questions: 3,
-    estimatedTime: "1-2 min",
-    category: "Solana"
-  },
-  {
-    id: "solana-defi",
-    title: "Solana DeFi",
-    description: "Explore decentralized finance on Solana: Serum, Raydium, and yield opportunities",
-    icon: "🌊",
-    questions: 3,
-    estimatedTime: "1-2 min",
-    category: "DeFi"
-  }
-];
-
-// Protocol Specific Quizzes
-const PROTOCOL_QUIZZES: Quiz[] = [
-  {
-    id: "pump-fun",
-    title: "Pump.fun",
-    description: "Master the leading meme coin launchpad on Solana with bonding curves and fair launches",
-    icon: "🚀",
-    questions: 3,
-    estimatedTime: "1-2 min",
-    category: "Launchpad"
-  },
-  {
-    id: "marginfi",
-    title: "MarginFi",
-    description: "Explore advanced margin trading and lending with automated risk monitoring",
-    icon: "💰",
-    questions: 3,
-    estimatedTime: "1-2 min",
-    category: "Lending"
-  },
-  {
-    id: "kamino-finance",
-    title: "Kamino Finance",
-    description: "Understand the comprehensive DeFi suite with leading TVL on Solana",
-    icon: "🏦",
-    questions: 3,
-    estimatedTime: "1-2 min",
-    category: "DeFi Suite"
-  }
-];
+import { createFileRoute } from '@tanstack/react-router'
+import { useState } from "react";
+import { Header } from "../components/Header";
+import { CampaignCard } from "../components/CampaignCard";
+import { WinnerModal } from "../components/WinnerModal";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { Badge } from "../components/ui/badge";
+import { Search, Filter, Users, Trophy, TrendingUp } from "../components/icons";
+import { mockCampaigns } from "../data/mockCampaigns";
 
 function HomePage() {
-  const [selectedQuiz, setSelectedQuiz] = useState<string | null>(null);
-  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterStatus, setFilterStatus] = useState<"all" | "active" | "finished">("all");
+  const [showWinnerModal, setShowWinnerModal] = useState(false);
+  
+  // Mock wallet connection state
+  const [isWalletConnected] = useState(false);
 
-  const handleQuizSelect = (quizId: string) => {
-    setSelectedQuiz(quizId);
-    // Navigate to quiz using TanStack Router
-    navigate({ to: '/quiz-game', search: { quiz: quizId } });
+  // Mock winner data
+  const mockWinner = {
+    campaignName: "Solana Summer Giveaway",
+    prize: "100 SOL",
+    prizeValue: "$2,400 USD",
+    walletAddress: "8kF7xR9mQ2vN3pL6wY4hZ1tB5sC9dE2fG3hJ6kL7mN8pQ",
+    transactionId: "5KJc9Y8qVgXhR2mN4pL7wB6sF3nH8jK9mQ1xZ5vC7bN2E",
+    claimed: false,
   };
+
+  const filteredCampaigns = mockCampaigns.filter((campaign: any) => {
+    const matchesSearch = campaign.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         campaign.partner.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesFilter = filterStatus === "all" || campaign.status === filterStatus;
+    return matchesSearch && matchesFilter;
+  });
+
+  const activeCampaigns = mockCampaigns.filter((c: any) => c.status === "active").length;
+  const totalParticipants = mockCampaigns.reduce((total: number, campaign: any) => total + campaign.participants, 0);
+  const totalPrizeValue = "$6,850+"; // Based on current crypto prices
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-6xl mx-auto p-4 sm:p-6 md:p-8">
-        {/* Hero Section - Modern Solana-focused */}
-        <div className="text-center mb-16">
-          {/* Powered by Solana Badge */}
-          <div className="flex items-center justify-center gap-2 mb-8">
-            <div className="text-2xl">⚡</div>
-            <span className="text-lg font-medium text-primary">Powered by Solana</span>
+      <Header />
+
+      {/* Hero Section */}
+      <section className="relative overflow-hidden py-20">
+        <div className="absolute inset-0 bg-gradient-primary opacity-10"></div>
+        <div className="relative container mx-auto px-4 text-center">
+          <div className="max-w-3xl mx-auto">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white">
+              Win Big on{" "}
+              <span className="text-primary">
+                Solana
+              </span>
+            </h1>
+            <p className="text-xl text-muted-foreground mb-8">
+              🚀 <strong>Revolutionary engagement protocol!</strong> Join campaigns and interact with 
+              <strong> ALL protocol posts</strong> throughout the campaign period for unlimited raffle tickets!
+            </p>
+            
+            {/* Stats */}
+            <div className="flex flex-wrap justify-center gap-8 mb-8">
+              <div className="flex items-center gap-2">
+                <div className="bg-success/20 p-2 rounded-lg">
+                  <Trophy className="h-5 w-5 text-success" />
+                </div>
+                <div className="text-left">
+                  <p className="text-lg font-bold text-white">{activeCampaigns}</p>
+                  <p className="text-sm text-muted-foreground">Active Raffles</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="bg-accent/20 p-2 rounded-lg">
+                  <Users className="h-5 w-5 text-accent" />
+                </div>
+                <div className="text-left">
+                  <p className="text-lg font-bold text-white">{totalParticipants.toLocaleString()}</p>
+                  <p className="text-sm text-muted-foreground">Participants</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="bg-primary/20 p-2 rounded-lg">
+                  <TrendingUp className="h-5 w-5 text-primary" />
+                </div>
+                <div className="text-left">
+                  <p className="text-lg font-bold text-white">{totalPrizeValue}</p>
+                  <p className="text-sm text-muted-foreground">In Prizes</p>
+                </div>
+              </div>
+            </div>
+
           </div>
-          
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 text-foreground">
-            Learn Solana,<br />
-            <span className="bg-gradient-primary bg-clip-text text-transparent">Earn Rewards</span>
-          </h1>
-          <p className="text-lg sm:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto px-4 leading-relaxed">
-            Master Solana concepts through interactive quizzes. Build your Web3 knowledge while earning real tokens and NFT badges.
-          </p>
+        </div>
+      </section>
+
+      {/* My Raffle Tickets Overview */}
+      <section className="container mx-auto px-4 pb-8">
+        <div className="bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20 rounded-xl p-6 mb-8">
+          <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+            🎫 My Raffle Tickets Overview
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="text-center p-4 bg-white/5 rounded-lg border border-white/10">
+              <div className="text-3xl font-bold text-primary mb-2">56</div>
+              <div className="text-sm text-muted-foreground">Total Active Tickets</div>
+              <div className="text-xs text-primary/70 mt-1">15+23+18 tickets earned</div>
+            </div>
+            <div className="text-center p-4 bg-white/5 rounded-lg border border-white/10">
+              <div className="text-3xl font-bold text-success mb-2">4</div>
+              <div className="text-sm text-muted-foreground">Active Campaigns</div>
+              <div className="text-xs text-success/70 mt-1">Still earning tickets</div>
+            </div>
+            <div className="text-center p-4 bg-white/5 rounded-lg border border-white/10">
+              <div className="text-3xl font-bold text-warning mb-2">2</div>
+              <div className="text-sm text-muted-foreground">Results Pending</div>
+              <div className="text-xs text-warning/70 mt-1">Winners announced soon</div>
+            </div>
+          </div>
+          <div className="mt-4 text-center">
+            <p className="text-sm text-muted-foreground">
+              💡 Keep engaging with protocol posts to earn more tickets! Each interaction counts.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Campaigns Section */}
+      <section className="container mx-auto px-4 pb-16">
+        {/* Filters */}
+        <div className="flex flex-col md:flex-row gap-4 mb-8">
+          <div className="flex-1 relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Search campaigns or partners..."
+              value={searchTerm}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
+              className="pl-10"
+            />
+          </div>
+          <div className="flex gap-2">
+            <Button
+              variant={filterStatus === "all" ? "default" : "outline"}
+              onClick={() => setFilterStatus("all")}
+              className={filterStatus === "all" ? "bg-gradient-primary" : ""}
+            >
+              All
+            </Button>
+            <Button
+              variant={filterStatus === "active" ? "default" : "outline"}
+              onClick={() => setFilterStatus("active")}
+              className={filterStatus === "active" ? "bg-gradient-primary" : ""}
+            >
+              Active
+              <Badge className="ml-2 bg-success/20 text-success border-success/30">
+                {activeCampaigns}
+              </Badge>
+            </Button>
+            <Button
+              variant={filterStatus === "finished" ? "default" : "outline"}
+              onClick={() => setFilterStatus("finished")}
+              className={filterStatus === "finished" ? "bg-gradient-primary" : ""}
+            >
+              Finished
+            </Button>
+          </div>
         </div>
 
-        {/* Rewards Section */}
-        <div className="text-center mb-12">
-          <div className="bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200 rounded-2xl p-6 sm:p-8 max-w-4xl mx-auto">
-            <div className="flex items-center justify-center mb-4">
-              <span className="text-3xl sm:text-4xl mr-3">🎯</span>
-              <h2 className="text-xl sm:text-2xl font-bold text-foreground">Solana Learning Rewards</h2>
-            </div>
-            <div className="bg-white rounded-xl p-4 mb-4 border border-purple-100">
-              <p className="text-lg sm:text-xl font-bold text-primary mb-1">
-                Earn SOL tokens + Exclusive NFT Badges
-              </p>
-              <p className="text-sm text-muted-foreground">
-                Complete quizzes and unlock achievements
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
-              <Link
-                to="/quiz-game"
-                search={{ quiz: "ai-generated" }}
-                className="inline-block px-6 sm:px-8 py-3 sm:py-4 bg-gradient-primary text-primary-foreground 
-                           rounded-xl font-bold hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
-              >
-                🚀 Start Learning
-              </Link>
-              <Link
-                to="/landing"
-                className="inline-block px-6 sm:px-8 py-3 sm:py-4 bg-white text-primary border border-primary
-                           rounded-xl font-bold hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
-              >
-                📖 Learn More
-              </Link>
-            </div>
+        {/* Campaign Grid */}
+        {filteredCampaigns.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredCampaigns.map((campaign: any) => (
+              <CampaignCard
+                key={campaign.id}
+                campaign={campaign}
+                isWalletConnected={isWalletConnected}
+                userHasJoined={Math.random() > 0.7} // Random for demo
+              />
+            ))}
           </div>
-        </div>
+        ) : (
+          <div className="text-center py-16">
+            <Filter className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+            <h3 className="text-lg font-semibold mb-2">No campaigns found</h3>
+            <p className="text-muted-foreground">Try adjusting your search or filter criteria.</p>
+          </div>
+        )}
+      </section>
 
-        {/* Quiz Categories */}
-        <div id="topics" className="mb-8 sm:mb-12">
-          {/* General Knowledge Section */}
-          <div className="mb-12">
-            <div className="text-center mb-8">
-              <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-4">
-                📚 General Knowledge
-              </h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Master the fundamentals of blockchain, Solana ecosystem, and Web3 concepts
-              </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-              {GENERAL_KNOWLEDGE_QUIZZES.map((quiz, index) => (
-                <QuizCard
-                  key={quiz.id}
-                  quiz={quiz}
-                  isSelected={selectedQuiz === quiz.id}
-                  onSelect={() => handleQuizSelect(quiz.id)}
-                  delay={`${index * 200}ms`}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Protocol Specific Section */}
-          <div className="mb-12">
-            <div className="text-center mb-8">
-              <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-4">
-                🏛️ Protocol Mastery
-              </h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Deep dive into specific Solana protocols and platforms
-              </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-              {PROTOCOL_QUIZZES.map((quiz, index) => (
-                <QuizCard
-                  key={quiz.id}
-                  quiz={quiz}
-                  isSelected={selectedQuiz === quiz.id}
-                  onSelect={() => handleQuizSelect(quiz.id)}
-                  delay={`${(GENERAL_KNOWLEDGE_QUIZZES.length + index) * 200}ms`}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function QuizCard({ quiz, isSelected, onSelect, delay }: {
-  quiz: Quiz;
-  isSelected: boolean;
-  onSelect: () => void;
-  delay: string;
-}) {
-  return (
-    <div
-      onClick={onSelect}
-      className={`quiz-card rounded-2xl p-4 sm:p-6 cursor-pointer transition-all duration-300 animate-bounce-in group
-                  ${isSelected 
-                    ? 'ring-2 ring-primary quiz-glow scale-105' 
-                    : 'hover:scale-105 hover:quiz-button-glow'
-                  }`}
-      style={{ animationDelay: delay }}
-    >
-      <div className="flex items-center mb-3 sm:mb-4">
-        <div className="text-2xl sm:text-4xl mr-3 sm:mr-4 group-hover:animate-celebrate">
-          {quiz.icon}
-        </div>
-        <div>
-          <h3 className="text-lg sm:text-xl font-bold text-primary mb-1">
-            {quiz.title}
-          </h3>
-          <div className={`inline-block px-2 py-1 rounded-full text-xs font-medium
-                          ${isSelected ? 'bg-primary text-primary-foreground' : 'bg-secondary text-secondary-foreground'}`}>
-            {quiz.category}
-          </div>
-        </div>
-      </div>
-      
-      <p className="text-muted-foreground mb-3 sm:mb-4 leading-relaxed text-xs sm:text-sm">
-        {quiz.description}
-      </p>
-      
-      <div className="flex justify-between text-xs sm:text-sm text-muted-foreground">
-        <span className="flex items-center">
-          <span className="mr-1">📝</span>
-          {quiz.questions} questions
-        </span>
-        <span className="flex items-center">
-          <span className="mr-1">⏱️</span>
-          {quiz.estimatedTime}
-        </span>
-      </div>
+      {/* Winner Modal */}
+      <WinnerModal
+        isOpen={showWinnerModal}
+        onClose={() => setShowWinnerModal(false)}
+        winner={mockWinner}
+      />
     </div>
   );
 }
