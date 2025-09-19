@@ -43,18 +43,35 @@ function MintNFTPage() {
       const metaplex = Metaplex.make(connection)
         .use(walletAdapterIdentity(wallet));
 
-      console.log("📤 Uploading metadata...");
-      // Upload minimal metadata (required for Metaplex NFTs)
-      const { uri } = await metaplex.nfts().uploadMetadata({
-        name: nftData.name,
-        symbol: nftData.symbol,
-        description: nftData.description,
-        image: "", // Required property, can be empty for test
-        attributes: [],
-        properties: {},
-      });
-
-      console.log("📋 Metadata URI:", uri);
+      // TEMPORARY HACK: Use pre-hosted metadata instead of uploading
+      // The Irys/Bundlr upload is failing, so we'll use a public JSON file
+      console.log("📤 Using pre-hosted metadata (temporary hack)...");
+      
+      let uri: string;
+      
+      try {
+        // Try to upload metadata first (commented out for now due to Irys issues)
+        console.log("⚠️ Upload disabled due to Irys/Bundlr issues");
+        // const { uri: uploadedUri } = await metaplex.nfts().uploadMetadata({
+        //   name: nftData.name,
+        //   symbol: nftData.symbol,
+        //   description: nftData.description,
+        //   image: "https://placehold.co/600x400", // Use placeholder image
+        //   attributes: [],
+        //   properties: {},
+        // });
+        // uri = uploadedUri;
+        
+        // Fallback to pre-hosted metadata
+        uri = "https://api.jsonbin.io/v3/b/68ccc4ad43b1c97be947bfd7";
+        console.log("📋 Using fallback metadata URI:", uri);
+        
+      } catch (uploadError) {
+        console.warn("⚠️ Upload failed, using fallback metadata:", uploadError);
+        // Fallback to pre-hosted metadata if upload fails
+        uri = "https://api.jsonbin.io/v3/b/68ccc4ad43b1c97be947bfd7";
+        console.log("📋 Using fallback metadata URI:", uri);
+      }
 
       console.log("🎨 Creating NFT...");
       // Create NFT - capture the full response object
@@ -154,6 +171,18 @@ function MintNFTPage() {
               <div><strong>RPC Endpoint:</strong> {connection.rpcEndpoint}</div>
               <div><strong>Standard:</strong> Metaplex NFT</div>
               <div><strong>Cost:</strong> Free (testnet)</div>
+            </div>
+          </div>
+
+          {/* Temporary Hack Notice */}
+          <div className="mb-6 p-4 bg-orange-500/10 border border-orange-400/30 rounded-lg">
+            <div className="text-orange-400 font-medium mb-2">⚠️ Temporary Workaround</div>
+            <div className="text-sm text-orange-300 space-y-1">
+              <div><strong>Issue:</strong> Irys/Bundlr metadata upload is failing</div>
+              <div><strong>Solution:</strong> Using pre-hosted metadata from JSONBin</div>
+              <div><strong>Metadata URI:</strong> <code className="text-xs bg-black/20 px-1 rounded">https://api.jsonbin.io/v3/b/68ccc4ad43b1c97be947bfd7</code></div>
+              <div><strong>Metadata Content:</strong> "My NFT" with placeholder image</div>
+              <div><strong>Note:</strong> This is a temporary fix for testing. For production, fix the upload service.</div>
             </div>
           </div>
 
