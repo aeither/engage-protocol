@@ -7,7 +7,7 @@ import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Badge } from "../components/ui/badge";
 import { Search, Filter, Users, Trophy, TrendingUp } from "../components/icons";
-import { mockCampaigns } from "../data/mockCampaigns";
+import { mockCampaigns, getUserCampaignParticipation } from "../data/mockCampaigns";
 
 function HomePage() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -173,7 +173,7 @@ function HomePage() {
                 key={campaign.id}
                 campaign={campaign}
                 isWalletConnected={isWalletConnected}
-                userHasJoined={Math.random() > 0.7} // Random for demo
+                userHasJoined={getUserCampaignParticipation(campaign.id)} // Fixed participation data
               />
             ))}
           </div>

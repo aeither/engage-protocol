@@ -40,7 +40,7 @@ export const mockCampaigns: Campaign[] = [
     prize: "10 SOL",
     prizeValue: "$2,505 USD",
     status: "active",
-    endDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), // 5 days from now
+    endDate: new Date('2025-09-24T23:59:59Z'), // Fixed end date
     participants: 127,
     maxParticipants: 500,
     tweetId: "1738901234567890123",
@@ -66,7 +66,7 @@ export const mockCampaigns: Campaign[] = [
     prize: "JUP Token Airdrop",
     prizeValue: "2,000 JUP (~$1,142)",
     status: "active",
-    endDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), // 3 days from now
+    endDate: new Date('2025-09-22T23:59:59Z'), // Fixed end date
     participants: 89,
     maxParticipants: 200,
     tweetId: "1738901234567890124",
@@ -82,7 +82,7 @@ export const mockCampaigns: Campaign[] = [
     prize: "Rare DeGods NFT",
     prizeValue: "2 SOL (~$501)",
     status: "finished",
-    endDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2 days ago
+    endDate: new Date('2025-09-17T23:59:59Z'), // Fixed end date (finished)
     participants: 156,
     maxParticipants: 300,
     tweetId: "1738901234567890125",
@@ -94,7 +94,7 @@ export const mockCampaigns: Campaign[] = [
       address: "9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM",
       displayName: "@cryptowhale_nft",
       tickets: 47,
-      claimedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
+      claimedAt: new Date('2025-09-18T10:30:00Z'),
     },
   },
   {
@@ -104,7 +104,7 @@ export const mockCampaigns: Campaign[] = [
     prize: "RAY Token Bundle",
     prizeValue: "500 RAY (~$750)",
     status: "active",
-    endDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days from now
+    endDate: new Date('2025-09-26T23:59:59Z'), // Fixed end date
     participants: 67,
     maxParticipants: 150,
     tweetId: "1738901234567890126",
@@ -120,7 +120,7 @@ export const mockCampaigns: Campaign[] = [
     prize: "Creator Fund Grant",
     prizeValue: "4 SOL (~$1,002)",
     status: "active",
-    endDate: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000), // 1 day from now
+    endDate: new Date('2025-09-20T23:59:59Z'), // Fixed end date
     participants: 34,
     maxParticipants: 100,
     tweetId: "1738901234567890127",
@@ -146,7 +146,7 @@ export const mockCampaigns: Campaign[] = [
     prize: "ORCA Token Rewards",
     prizeValue: "300 ORCA (~$450)",
     status: "finished",
-    endDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), // 5 days ago
+    endDate: new Date('2025-09-14T23:59:59Z'), // Fixed end date (finished)
     participants: 76,
     maxParticipants: 150,
     tweetId: "1738901234567890128",
@@ -158,7 +158,7 @@ export const mockCampaigns: Campaign[] = [
       address: "5fNfvyp5czQVX77yoACa3JJVEhdRaWjPuazuWgjhTqEH", 
       displayName: "@defi_orca_fan",
       tickets: 31,
-      claimedAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000),
+      claimedAt: new Date('2025-09-15T14:20:00Z'),
     },
   },
 ];
@@ -189,21 +189,21 @@ export const mockUserTickets: UserTickets[] = [
     campaignName: "Solana Summer Giveaway",
     tickets: 15, // Join (1) + Follow (1) + Multiple post interactions: 5 likes (5) + 3 retweets (3) + 3 replies (6) = 15
     actions: { like: true, retweet: true, reply: true, quote: false },
-    lastUpdated: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
+    lastUpdated: new Date('2025-09-19T16:30:00Z'), // Fixed timestamp
   },
   {
     campaignId: "2",
     campaignName: "Jupiter DEX Launch",
     tickets: 23, // Join (1) + Follow (1) + Active multi-post engagement: 8 likes (8) + 6 retweets (6) + 4 replies (8) = 23  
     actions: { like: true, retweet: true, reply: true, quote: true },
-    lastUpdated: new Date(Date.now() - 1 * 60 * 60 * 1000), // 1 hour ago
+    lastUpdated: new Date('2025-09-19T17:30:00Z'), // Fixed timestamp
   },
   {
     campaignId: "5",
     campaignName: "Metaplex Creator Rewards",
     tickets: 18, // Join (1) + Follow (1) + Creator engagement: 6 likes (6) + 4 retweets (4) + 3 project replies (6) = 18
     actions: { like: true, retweet: true, reply: true, quote: false },
-    lastUpdated: new Date(Date.now() - 30 * 60 * 1000), // 30 minutes ago
+    lastUpdated: new Date('2025-09-19T18:00:00Z'), // Fixed timestamp
   },
 ];
 
@@ -212,3 +212,10 @@ export const getTotalUserTickets = () =>
 
 export const getUserTicketsForCampaign = (campaignId: string) =>
   mockUserTickets.find(t => t.campaignId === campaignId);
+
+// Fixed user participation data - no more randomness!
+export const getUserCampaignParticipation = (campaignId: string): boolean => {
+  // User has joined campaigns: 1, 2, 3, 5 (based on mockUserTickets)
+  const participatedCampaigns = ['1', '2', '3', '5'];
+  return participatedCampaigns.includes(campaignId);
+};

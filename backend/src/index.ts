@@ -8,6 +8,15 @@ import { z } from 'zod'
 // Initialize the app
 const app = new Hono()
 
+app.use(
+  '*',
+  cors({
+    origin: '*',
+    allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowHeaders: ['Content-Type', 'Authorization'],
+    credentials: false,
+  })
+)
 
 // Welcome message
 const welcomeStrings = [
