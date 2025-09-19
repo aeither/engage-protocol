@@ -19,6 +19,17 @@ export interface Campaign {
     tickets: number;
     claimedAt?: Date;
   };
+  // Fixed user engagement statistics (no more random numbers!)
+  userStats?: {
+    rank: number;
+    percentile: number;
+    actions: {
+      follows: number;
+      likes: number;
+      retweets: number;
+      replies: number;
+    };
+  };
 }
 
 export const mockCampaigns: Campaign[] = [
@@ -35,8 +46,18 @@ export const mockCampaigns: Campaign[] = [
     tweetId: "1738901234567890123",
     description: "Win 10 SOL by engaging with Phantom Wallet throughout the campaign! Follow once, then interact with ALL their posts during the campaign period for unlimited tickets.",
     requirements: ["Follow @phantom", "Follow @engageprotocol", "Engage with any Phantom posts", "Like, retweet, reply to multiple posts", "More interactions = more tickets!"],
-    ticketsEarned: 15, // Higher numbers due to multi-post interactions
+    ticketsEarned: 15,
     userRegistered: true,
+    userStats: {
+      rank: 6,
+      percentile: 50,
+      actions: {
+        follows: 1,
+        likes: 5,
+        retweets: 3,
+        replies: 3
+      }
+    }
   },
   {
     id: "2",
@@ -105,8 +126,18 @@ export const mockCampaigns: Campaign[] = [
     tweetId: "1738901234567890127",
     description: "Support Metaplex creators! Engage with all Metaplex posts during the campaign to win SOL for your NFT project.",
     requirements: ["Follow @metaplex", "Follow @engageprotocol", "Engage with creator posts", "Share your project ideas in replies", "Multiple interactions = more chances"],
-    ticketsEarned: 18, // Multiple creator post interactions
+    ticketsEarned: 18,
     userRegistered: true,
+    userStats: {
+      rank: 2,
+      percentile: 60,
+      actions: {
+        follows: 1,
+        likes: 6,
+        retweets: 4,
+        replies: 3
+      }
+    }
   },
   {
     id: "6",

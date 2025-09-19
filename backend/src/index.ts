@@ -8,15 +8,6 @@ import { z } from 'zod'
 // Initialize the app
 const app = new Hono()
 
-// Configure CORS for localhost development
-app.use(
-  '*',
-  cors({
-    origin: process.env.NODE_ENV === 'production' ? ['*'] : 'http://localhost:3000',
-    allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowHeaders: ['Content-Type', 'Authorization'],
-  })
-)
 
 // Welcome message
 const welcomeStrings = [
@@ -96,6 +87,106 @@ app.get('/quiz', async (c) => {
     return c.json({
       error: 'Failed to generate quiz data',
       timestamp: new Date().toISOString()
+    }, 500)
+  }
+})
+
+// X OAuth token exchange endpoint (fixes CORS issues)
+app.post('/api/oauth/token', async (c) => {
+  try {
+    const { code, codeVerifier, redirectUri } = await c.req.json()
+
+    // Validate required fields
+    if (!code || !codeVerifier || !redirectUri) {
+      return c.json({
+        error: 'Missing required fields: code, codeVerifier, redirectUri'
+      }, 400)
+    }
+
+    // Get environment variables
+    const CLIENT_ID = process.env.X_CLIENT_ID || process.env.VITE_X_CLIENT_ID
+    const CLIENT_SECRET = process.env.X_CLIENT_SECRET
+    
+    if (!CLIENT_ID || !CLIENT_SECRET) {
+      console.error('Missing X OAuth credentials in environment variables')
+      return c.json({
+        error: 'Server configuration error: Missing OAuth credentials'
+      }, 500)
+    }
+
+    // Exchange authorization code for access token
+    const tokenResponse = await fetch('https://api.x.com/2/oauth2/token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': `Basic ${Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString('base64')}`
+      },
+      body: new URLSearchParams({
+        grant_type: 'authorization_code',
+        code,
+        redirect_uri: redirectUri,
+        code_verifier: codeVerifier,
+        client_id: CLIENT_ID
+      })
+    })
+
+    const tokenData = await tokenResponse.json()
+
+    if (!tokenResponse.ok) {
+      console.error('X API token exchange failed:', tokenData)
+      return c.json({
+        error: 'Token exchange failed',
+        details: tokenData.error_description || tokenData.error
+      }, tokenResponse.status as any)
+    }
+
+    // Return the token data to frontend
+    return c.json({
+      access_token: tokenData.access_token,
+      token_type: tokenData.token_type,
+      expires_in: tokenData.expires_in,
+      refresh_token: tokenData.refresh_token,
+      scope: tokenData.scope
+    })
+
+  } catch (error) {
+    console.error('OAuth token exchange error:', error)
+    return c.json({
+      error: 'Internal server error during token exchange'
+    }, 500)
+  }
+})
+
+// X API proxy endpoints (avoid CORS for API calls)
+app.get('/api/x/me', async (c) => {
+  try {
+    const authHeader = c.req.header('Authorization')
+    if (!authHeader) {
+      return c.json({ error: 'Missing Authorization header' }, 401)
+    }
+
+    const userResponse = await fetch('https://api.x.com/2/users/me?user.fields=id,name,username,public_metrics,profile_image_url', {
+      method: 'GET',
+      headers: {
+        'Authorization': authHeader,
+        'Content-Type': 'application/json'
+      }
+    })
+
+    const userData = await userResponse.json()
+
+    if (!userResponse.ok) {
+      return c.json({
+        error: 'Failed to fetch user data',
+        details: userData
+      }, userResponse.status as any)
+    }
+
+    return c.json(userData)
+  } catch (error) {
+    console.error('X API user fetch error:', error)
+    return c.json({
+      error: 'Internal server error fetching user data'
     }, 500)
   }
 })

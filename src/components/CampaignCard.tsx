@@ -158,19 +158,19 @@ export function CampaignCard({ campaign, isWalletConnected, userHasJoined }: Cam
               <div className="bg-black/20 rounded-lg p-2 mb-2">
                 <div className="text-xs text-center text-primary/90 font-medium mb-1">Your Current Position</div>
                 <div className="w-full bg-gray-700/50 rounded-full h-2 mb-2">
-                  <div className="bg-gradient-to-r from-primary to-accent h-2 rounded-full" style={{width: `${Math.min((campaign.ticketsEarned / 30) * 100, 100)}%`}}></div>
+                  <div className="bg-gradient-to-r from-primary to-accent h-2 rounded-full" style={{width: `${campaign.userStats?.percentile || Math.min((campaign.ticketsEarned / 30) * 100, 100)}%`}}></div>
                 </div>
                 <div className="flex justify-between text-xs text-muted-foreground">
-                  <span>Rank: #{Math.floor(Math.random() * 20) + 1}</span>
-                  <span>Top {Math.floor((campaign.ticketsEarned / 30) * 100)}%</span>
+                  <span>Rank: #{campaign.userStats?.rank || 'N/A'}</span>
+                  <span>Top {campaign.userStats?.percentile || Math.floor((campaign.ticketsEarned || 0) / 30 * 100)}%</span>
                 </div>
               </div>
               <div className="text-xs text-muted-foreground">
                 <div className="grid grid-cols-2 gap-2">
-                  <span>• Follow: 1 ticket ✓</span>
-                  <span>• Likes: {Math.floor(campaign.ticketsEarned / 3)} posts</span>
-                  <span>• Retweets: {Math.floor(campaign.ticketsEarned / 4)} posts</span>
-                  <span>• Replies: {Math.floor(campaign.ticketsEarned / 5)} posts</span>
+                  <span>• Follow: {campaign.userStats?.actions.follows || 1} ticket ✓</span>
+                  <span>• Likes: {campaign.userStats?.actions.likes || Math.floor((campaign.ticketsEarned || 0) / 3)} posts</span>
+                  <span>• Retweets: {campaign.userStats?.actions.retweets || Math.floor((campaign.ticketsEarned || 0) / 4)} posts</span>
+                  <span>• Replies: {campaign.userStats?.actions.replies || Math.floor((campaign.ticketsEarned || 0) / 5)} posts</span>
                 </div>
               </div>
             </div>
