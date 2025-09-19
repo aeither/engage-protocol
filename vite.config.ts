@@ -63,6 +63,19 @@ export default defineConfig({
       'browserify-sign'
     ],
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+        },
+      },
+    },
+    commonjsOptions: {
+      transformMixedEsModules: true,
+      include: [/eventemitter3/, /node_modules/],
+    },
+  },
   resolve: {
     alias: {
       buffer: 'buffer',
