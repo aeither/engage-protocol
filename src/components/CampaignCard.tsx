@@ -52,7 +52,7 @@ export function CampaignCard({ campaign, isWalletConnected, userHasJoined }: Cam
     // Show additional reward toast after a delay
     setTimeout(() => {
       toast({
-        title: "🚀 Innovation Unlocked!",
+        title: "🚀 More Tickets Available!",
         description: "Unlike other platforms - interact with ANY post from this protocol to earn more tickets!",
       });
     }, 2000);
@@ -391,7 +391,7 @@ export function CampaignCard({ campaign, isWalletConnected, userHasJoined }: Cam
                 <h4 className="font-semibold text-white mb-3">Keep Earning Throughout Campaign! 🎫</h4>
                 <div className="bg-gradient-to-r from-primary/5 to-accent/5 border border-primary/20 rounded-lg p-4 mb-4">
                   <p className="text-sm text-white mb-3">
-                    <strong>🚀 Innovative System:</strong> Interact with ALL {campaign.partner} posts during the campaign period!
+                    <strong>🚀 Earn More Tickets:</strong> Interact with ALL {campaign.partner} posts during the campaign period!
                   </p>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="text-center p-2 bg-red-500/10 border border-red-300/30 rounded-lg">
@@ -451,7 +451,7 @@ export function CampaignCard({ campaign, isWalletConnected, userHasJoined }: Cam
                 </div>
                 <div className="bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-400/30 rounded-lg p-3">
                   <p className="text-xs text-green-200 text-center mb-1">
-                    <strong>🎯 Innovation:</strong> No limits on interactions!
+                    <strong>🎯 No Limits:</strong> No limits on interactions!
                   </p>
                   <p className="text-xs text-green-300/80 text-center">
                     The more you engage with {campaign.partner} posts, the more tickets you earn!

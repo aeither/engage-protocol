@@ -51,12 +51,6 @@ export function Header() {
             Winners
           </Link>
           <Link
-            to="/mint"
-            className="text-sm font-medium text-muted-foreground hover:text-white transition-colors"
-          >
-            Mint NFT
-          </Link>
-          <Link
             to="/profile"
             className="text-sm font-medium text-muted-foreground hover:text-white transition-colors"
           >
