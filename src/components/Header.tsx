@@ -57,6 +57,12 @@ export function Header() {
             Mint NFT
           </Link>
           <Link
+            to="/profile"
+            className="text-sm font-medium text-muted-foreground hover:text-white transition-colors"
+          >
+            Profile
+          </Link>
+          <Link
             to="/admin"
             className="text-sm font-medium text-muted-foreground hover:text-white transition-colors"
           >

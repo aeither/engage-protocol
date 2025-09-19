@@ -15,6 +15,7 @@ function MintNFTPage() {
   const { toast } = useToast();
   
   const [mintedNFT, setMintedNFT] = useState<string | null>(null);
+  const [transactionSignature, setTransactionSignature] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   
@@ -34,10 +35,15 @@ function MintNFTPage() {
     setError("");
     
     try {
+      console.log("🚀 Starting NFT mint process...");
+      console.log("📍 Wallet address:", wallet.publicKey.toBase58());
+      console.log("🌐 Connection endpoint:", connection.rpcEndpoint);
+      
       // Create Metaplex instance for devnet
       const metaplex = Metaplex.make(connection)
         .use(walletAdapterIdentity(wallet));
 
+      console.log("📤 Uploading metadata...");
       // Upload minimal metadata (required for Metaplex NFTs)
       const { uri } = await metaplex.nfts().uploadMetadata({
         name: nftData.name,
@@ -48,8 +54,11 @@ function MintNFTPage() {
         properties: {},
       });
 
-      // Create NFT
-      const { nft } = await metaplex.nfts().create({
+      console.log("📋 Metadata URI:", uri);
+
+      console.log("🎨 Creating NFT...");
+      // Create NFT - capture the full response object
+      const { nft, response } = await metaplex.nfts().create({
         uri,
         name: nftData.name,
         symbol: nftData.symbol,
@@ -57,15 +66,29 @@ function MintNFTPage() {
         maxSupply: toBigNumber(1),
       });
 
+      // Log all the important details for debugging
+      console.log("✅ NFT Created Successfully!");
+      console.log("🎯 NFT Mint Address:", nft.mint.address.toBase58());
+      console.log("📝 Transaction Signature:", response.signature);
+      console.log("🔗 Full Response Object:", response);
+      console.log("🎨 Full NFT Object:", nft);
+
       setMintedNFT(nft.mint.address.toBase58());
+      setTransactionSignature(response.signature);
       
       toast({
         title: "✅ NFT Minted Successfully!",
-        description: "Your NFT has been minted on Solana devnet",
+        description: `NFT minted at: ${nft.mint.address.toBase58()}`,
       });
 
     } catch (error) {
-      console.error("NFT minting error:", error);
+      console.error("❌ NFT minting error:", error);
+      console.error("🔍 Error details:", {
+        message: error instanceof Error ? error.message : "Unknown error",
+        stack: error instanceof Error ? error.stack : undefined,
+        name: error instanceof Error ? error.name : undefined,
+      });
+      
       const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
       setError(`Minting failed: ${errorMessage}`);
       
@@ -81,6 +104,7 @@ function MintNFTPage() {
 
   const resetMint = () => {
     setMintedNFT(null);
+    setTransactionSignature(null);
     setError("");
     setNftData({
       name: "Test NFT",
@@ -127,8 +151,20 @@ function MintNFTPage() {
             <div className="text-blue-400 font-medium mb-2">Network Information</div>
             <div className="text-sm text-blue-300 space-y-1">
               <div><strong>Network:</strong> Solana Devnet</div>
+              <div><strong>RPC Endpoint:</strong> {connection.rpcEndpoint}</div>
               <div><strong>Standard:</strong> Metaplex NFT</div>
               <div><strong>Cost:</strong> Free (testnet)</div>
+            </div>
+          </div>
+
+          {/* Debug Panel */}
+          <div className="mb-6 p-4 bg-yellow-500/10 border border-yellow-400/30 rounded-lg">
+            <div className="text-yellow-400 font-medium mb-2">Debug Information</div>
+            <div className="text-sm text-yellow-300 space-y-1">
+              <div><strong>Wallet Connected:</strong> {wallet.connected ? "✅ Yes" : "❌ No"}</div>
+              <div><strong>Wallet Public Key:</strong> {wallet.publicKey ? wallet.publicKey.toBase58() : "Not available"}</div>
+              <div><strong>Can Sign Transactions:</strong> {wallet.signTransaction ? "✅ Yes" : "❌ No"}</div>
+              <div><strong>Connection Status:</strong> {connection ? "✅ Connected" : "❌ Not connected"}</div>
             </div>
           </div>
 
@@ -241,10 +277,29 @@ function MintNFTPage() {
                       rel="noopener noreferrer"
                       className="text-blue-400 hover:text-blue-300 underline text-sm"
                     >
-                      View on Solana Explorer (Devnet)
+                      View NFT on Solana Explorer (Devnet)
                     </a>
                   </div>
                 </div>
+
+                {transactionSignature && (
+                  <div className="p-4 bg-purple-500/10 border border-purple-400/30 rounded-lg">
+                    <div className="text-purple-400 font-medium mb-2">Transaction Signature</div>
+                    <div className="text-xs text-purple-300 font-mono bg-black/20 p-2 rounded break-all">
+                      {transactionSignature}
+                    </div>
+                    <div className="mt-2">
+                      <a 
+                        href={`https://explorer.solana.com/tx/${transactionSignature}?cluster=devnet`}
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-purple-400 hover:text-purple-300 underline text-sm"
+                      >
+                        View Transaction on Solana Explorer (Devnet)
+                      </a>
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div className="flex gap-2">
