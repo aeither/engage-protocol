@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from "react";
+import { useWallet } from '@solana/wallet-adapter-react';
 import { Header } from "../components/Header";
 import { CampaignCard } from "../components/CampaignCard";
 import { WinnerModal } from "../components/WinnerModal";
@@ -14,8 +15,9 @@ function HomePage() {
   const [filterStatus, setFilterStatus] = useState<"all" | "active" | "finished">("all");
   const [showWinnerModal, setShowWinnerModal] = useState(false);
   
-  // Mock wallet connection state
-  const [isWalletConnected] = useState(false);
+  // Use real wallet connection state
+  const wallet = useWallet();
+  const isWalletConnected = wallet.connected;
 
   // Mock winner data
   const mockWinner = {

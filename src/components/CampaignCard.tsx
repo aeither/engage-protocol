@@ -68,16 +68,36 @@ export function CampaignCard({ campaign, isWalletConnected, userHasJoined }: Cam
       return;
     }
 
+    // Additional debugging
+    console.log("🔍 CampaignCard Debug Info:");
+    console.log("- Wallet connected:", wallet.connected);
+    console.log("- Wallet publicKey:", wallet.publicKey?.toBase58());
+    console.log("- Wallet signTransaction:", !!wallet.signTransaction);
+    console.log("- Connection endpoint:", connection.rpcEndpoint);
+    console.log("- Campaign name:", campaign.name);
+
+    if (!wallet.signTransaction) {
+      toast({
+        title: "Wallet Error",
+        description: "Wallet does not support transaction signing",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsMinting(true);
     
     try {
+      // Use exact same data as the working mint.tsx
       const nftData = {
-        name: `${campaign.name} Verification`,
-        symbol: "VERIFY",
-        description: `Verification NFT for participating in ${campaign.name} campaign`
+        name: "Test NFT",
+        symbol: "TST",
+        description: "Devnet NFT Mint Test"
       };
 
+      console.log("🎨 About to mint NFT with data:", nftData);
       const result = await mintNFT(wallet, connection, nftData);
+      console.log("✅ Minting successful:", result);
       
       toast({
         title: "✅ Verification NFT Minted!",
@@ -93,7 +113,8 @@ export function CampaignCard({ campaign, isWalletConnected, userHasJoined }: Cam
       }, 1500);
       
     } catch (error) {
-      console.error("NFT minting failed:", error);
+      console.error("❌ NFT minting failed in CampaignCard:", error);
+      console.error("❌ Error stack:", error instanceof Error ? error.stack : "No stack trace");
       const errorMessage = error instanceof NFTMintingError ? error.message : "Failed to mint verification NFT";
       
       toast({
@@ -423,7 +444,7 @@ export function CampaignCard({ campaign, isWalletConnected, userHasJoined }: Cam
                     ) : (
                       <>
                         <Ticket className="h-4 w-4 text-yellow-400" />
-                        <span className="text-xs">Mint Verification NFT</span>
+                        <span className="text-xs">Claim Tickets</span>
                       </>
                     )}
                   </Button>

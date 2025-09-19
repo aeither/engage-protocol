@@ -26,16 +26,28 @@ export async function mintNFT(
   connection: Connection,
   nftData: NFTData
 ): Promise<MintResult> {
+  console.log("🔍 NFT Minting Library Debug:");
+  console.log("- Wallet object:", wallet);
+  console.log("- Wallet connected:", wallet.connected);
+  console.log("- Wallet publicKey:", wallet.publicKey?.toBase58());
+  console.log("- Wallet signTransaction function:", !!wallet.signTransaction);
+  console.log("- Connection:", connection);
+  console.log("- NFT Data:", nftData);
+
   if (!wallet.connected || !wallet.publicKey || !wallet.signTransaction) {
-    throw new NFTMintingError('Wallet not connected or missing required capabilities');
+    const error = `Wallet validation failed: connected=${wallet.connected}, publicKey=${!!wallet.publicKey}, signTransaction=${!!wallet.signTransaction}`;
+    console.error("❌ " + error);
+    throw new NFTMintingError('Wallet not connected or missing required capabilities: ' + error);
   }
 
   console.log("🚀 Starting NFT mint process...");
   console.log("📍 Wallet address:", wallet.publicKey.toBase58());
   console.log("🌐 Connection endpoint:", connection.rpcEndpoint);
   
+  console.log("🔧 Creating Metaplex instance...");
   const metaplex = Metaplex.make(connection)
     .use(walletAdapterIdentity(wallet));
+  console.log("✅ Metaplex instance created successfully");
 
   console.log("📤 Using pre-hosted metadata (temporary hack)...");
   
@@ -53,6 +65,13 @@ export async function mintNFT(
   }
 
   console.log("🎨 Creating NFT...");
+  console.log("🔧 NFT Creation Parameters:", {
+    uri,
+    name: nftData.name,
+    symbol: nftData.symbol,
+    sellerFeeBasisPoints: 0,
+    maxSupply: 1,
+  });
   
   try {
     const { nft, response } = await metaplex.nfts().create({
