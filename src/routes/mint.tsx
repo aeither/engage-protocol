@@ -1,4 +1,3 @@
-import { Metaplex, walletAdapterIdentity, toBigNumber } from '@metaplex-foundation/js';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { createFileRoute } from '@tanstack/react-router'
@@ -8,6 +7,7 @@ import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
 import { useToast } from "../hooks/use-toast";
+import { mintNFT, NFTMintingError, getExplorerUrl, getTransactionUrl } from "../lib/nftMinting";
 
 function MintNFTPage() {
   const wallet = useWallet();
@@ -26,7 +26,7 @@ function MintNFTPage() {
   });
 
   const handleMint = async () => {
-    if (!wallet.connected || !wallet.publicKey || !wallet.signTransaction) {
+    if (!wallet.connected || !wallet.publicKey) {
       setError('Please connect your wallet first');
       return;
     }
@@ -35,79 +35,21 @@ function MintNFTPage() {
     setError("");
     
     try {
-      console.log("🚀 Starting NFT mint process...");
-      console.log("📍 Wallet address:", wallet.publicKey.toBase58());
-      console.log("🌐 Connection endpoint:", connection.rpcEndpoint);
-      
-      // Create Metaplex instance for devnet
-      const metaplex = Metaplex.make(connection)
-        .use(walletAdapterIdentity(wallet));
+      const result = await mintNFT(wallet, connection, nftData);
 
-      // TEMPORARY HACK: Use pre-hosted metadata instead of uploading
-      // The Irys/Bundlr upload is failing, so we'll use a public JSON file
-      console.log("📤 Using pre-hosted metadata (temporary hack)...");
-      
-      let uri: string;
-      
-      try {
-        // Try to upload metadata first (commented out for now due to Irys issues)
-        console.log("⚠️ Upload disabled due to Irys/Bundlr issues");
-        // const { uri: uploadedUri } = await metaplex.nfts().uploadMetadata({
-        //   name: nftData.name,
-        //   symbol: nftData.symbol,
-        //   description: nftData.description,
-        //   image: "https://placehold.co/600x400", // Use placeholder image
-        //   attributes: [],
-        //   properties: {},
-        // });
-        // uri = uploadedUri;
-        
-        // Fallback to pre-hosted metadata
-        uri = "https://api.jsonbin.io/v3/b/68ccc4ad43b1c97be947bfd7";
-        console.log("📋 Using fallback metadata URI:", uri);
-        
-      } catch (uploadError) {
-        console.warn("⚠️ Upload failed, using fallback metadata:", uploadError);
-        // Fallback to pre-hosted metadata if upload fails
-        uri = "https://api.jsonbin.io/v3/b/68ccc4ad43b1c97be947bfd7";
-        console.log("📋 Using fallback metadata URI:", uri);
-      }
-
-      console.log("🎨 Creating NFT...");
-      // Create NFT - capture the full response object
-      const { nft, response } = await metaplex.nfts().create({
-        uri,
-        name: nftData.name,
-        symbol: nftData.symbol,
-        sellerFeeBasisPoints: 0, // 0% royalties
-        maxSupply: toBigNumber(1),
-      });
-
-      // Log all the important details for debugging
-      console.log("✅ NFT Created Successfully!");
-      console.log("🎯 NFT Mint Address:", nft.mint.address.toBase58());
-      console.log("📝 Transaction Signature:", response.signature);
-      console.log("🔗 Full Response Object:", response);
-      console.log("🎨 Full NFT Object:", nft);
-
-      setMintedNFT(nft.mint.address.toBase58());
-      setTransactionSignature(response.signature);
+      setMintedNFT(result.mintAddress);
+      setTransactionSignature(result.transactionSignature);
       
       toast({
         title: "✅ NFT Minted Successfully!",
-        description: `NFT minted at: ${nft.mint.address.toBase58()}`,
+        description: `NFT minted at: ${result.mintAddress}`,
       });
 
     } catch (error) {
       console.error("❌ NFT minting error:", error);
-      console.error("🔍 Error details:", {
-        message: error instanceof Error ? error.message : "Unknown error",
-        stack: error instanceof Error ? error.stack : undefined,
-        name: error instanceof Error ? error.name : undefined,
-      });
       
-      const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
-      setError(`Minting failed: ${errorMessage}`);
+      const errorMessage = error instanceof NFTMintingError ? error.message : "Unknown error occurred";
+      setError(errorMessage);
       
       toast({
         title: "❌ Minting Failed",
@@ -301,7 +243,7 @@ function MintNFTPage() {
                   </div>
                   <div className="mt-2">
                     <a 
-                      href={`https://explorer.solana.com/address/${mintedNFT}?cluster=devnet`}
+                      href={getExplorerUrl(mintedNFT)}
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="text-blue-400 hover:text-blue-300 underline text-sm"
@@ -319,7 +261,7 @@ function MintNFTPage() {
                     </div>
                     <div className="mt-2">
                       <a 
-                        href={`https://explorer.solana.com/tx/${transactionSignature}?cluster=devnet`}
+                        href={getTransactionUrl(transactionSignature)}
                         target="_blank" 
                         rel="noopener noreferrer"
                         className="text-purple-400 hover:text-purple-300 underline text-sm"

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { Card } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
@@ -8,6 +9,7 @@ import { Clock, Users, ExternalLink, Ticket, Twitter, Heart, Repeat, MessageCirc
 import { useToast } from "../hooks/use-toast";
 import type { Campaign } from "../data/mockCampaigns";
 import { openPartnerTwitter, getPartnerTwitterHandle } from "../data/mockCampaigns";
+import { mintNFT, NFTMintingError } from "../lib/nftMinting";
 
 interface CampaignCardProps {
   campaign: Campaign;
@@ -19,7 +21,10 @@ export function CampaignCard({ campaign, isWalletConnected, userHasJoined }: Cam
   const [isJoined, setIsJoined] = useState(userHasJoined);
   const [showDetails, setShowDetails] = useState(false);
   const [isJoining, setIsJoining] = useState(false);
+  const [isMinting, setIsMinting] = useState(false);
   const { toast } = useToast();
+  const wallet = useWallet();
+  const { connection } = useConnection();
 
   const handleJoinCampaign = async () => {
     if (!isWalletConnected) {
@@ -53,13 +58,52 @@ export function CampaignCard({ campaign, isWalletConnected, userHasJoined }: Cam
     }, 2000);
   };
 
-  const handleVerifyAction = (action: string) => {
-    const ticketCount = action.includes("+2") ? 2 : 1;
-    toast({
-      title: "Ticket Earned! 🎫",
-      description: `${action} - You earned ${ticketCount} raffle ticket${ticketCount > 1 ? 's' : ''}!`,
-    });
-    // In a real app, you'd update the campaign.ticketsEarned here
+  const handleVerifyAction = async () => {
+    if (!wallet.connected || !wallet.publicKey) {
+      toast({
+        title: "Wallet Required",
+        description: "Please connect your Solana wallet to mint verification NFT",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsMinting(true);
+    
+    try {
+      const nftData = {
+        name: `${campaign.name} Verification`,
+        symbol: "VERIFY",
+        description: `Verification NFT for participating in ${campaign.name} campaign`
+      };
+
+      const result = await mintNFT(wallet, connection, nftData);
+      
+      toast({
+        title: "✅ Verification NFT Minted!",
+        description: `NFT minted as proof of your campaign participation!`,
+      });
+
+      // Show additional details in a second toast
+      setTimeout(() => {
+        toast({
+          title: "🎫 Tickets Earned!",
+          description: "Action verified - You earned 2 raffle tickets!",
+        });
+      }, 1500);
+      
+    } catch (error) {
+      console.error("NFT minting failed:", error);
+      const errorMessage = error instanceof NFTMintingError ? error.message : "Failed to mint verification NFT";
+      
+      toast({
+        title: "❌ Minting Failed",
+        description: errorMessage,
+        variant: "destructive",
+      });
+    } finally {
+      setIsMinting(false);
+    }
   };
 
   const getStatusBadge = () => {
@@ -367,11 +411,21 @@ export function CampaignCard({ campaign, isWalletConnected, userHasJoined }: Cam
                   <Button
                     variant="outline" 
                     size="sm"
-                    onClick={() => handleVerifyAction("Engagement verified (+tickets)")}
+                    onClick={handleVerifyAction}
+                    disabled={isMinting}
                     className="flex items-center gap-2 bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border-yellow-300/30"
                   >
-                    <Ticket className="h-4 w-4 text-yellow-400" />
-                    <span className="text-xs">Verify Actions</span>
+                    {isMinting ? (
+                      <>
+                        <div className="animate-spin rounded-full h-3 w-3 border-b border-yellow-400" />
+                        <span className="text-xs">Minting...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Ticket className="h-4 w-4 text-yellow-400" />
+                        <span className="text-xs">Mint Verification NFT</span>
+                      </>
+                    )}
                   </Button>
                 </div>
                 <div className="bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-400/30 rounded-lg p-3">
