@@ -13,6 +13,7 @@ import { Route as WinnersRouteImport } from './routes/winners'
 import { Route as TwitterRouteImport } from './routes/twitter'
 import { Route as SolanaDemoRouteImport } from './routes/solana-demo'
 import { Route as QuizGameRouteImport } from './routes/quiz-game'
+import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as MintRouteImport } from './routes/mint'
 import { Route as LandingRouteImport } from './routes/landing'
 import { Route as IndexDailywiserRouteImport } from './routes/index-dailywiser'
@@ -40,6 +41,11 @@ const SolanaDemoRoute = SolanaDemoRouteImport.update({
 const QuizGameRoute = QuizGameRouteImport.update({
   id: '/quiz-game',
   path: '/quiz-game',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MintRoute = MintRouteImport.update({
@@ -92,6 +98,7 @@ export interface FileRoutesByFullPath {
   '/index-dailywiser': typeof IndexDailywiserRoute
   '/landing': typeof LandingRoute
   '/mint': typeof MintRoute
+  '/profile': typeof ProfileRoute
   '/quiz-game': typeof QuizGameRoute
   '/solana-demo': typeof SolanaDemoRoute
   '/twitter': typeof TwitterRoute
@@ -106,6 +113,7 @@ export interface FileRoutesByTo {
   '/index-dailywiser': typeof IndexDailywiserRoute
   '/landing': typeof LandingRoute
   '/mint': typeof MintRoute
+  '/profile': typeof ProfileRoute
   '/quiz-game': typeof QuizGameRoute
   '/solana-demo': typeof SolanaDemoRoute
   '/twitter': typeof TwitterRoute
@@ -121,6 +129,7 @@ export interface FileRoutesById {
   '/index-dailywiser': typeof IndexDailywiserRoute
   '/landing': typeof LandingRoute
   '/mint': typeof MintRoute
+  '/profile': typeof ProfileRoute
   '/quiz-game': typeof QuizGameRoute
   '/solana-demo': typeof SolanaDemoRoute
   '/twitter': typeof TwitterRoute
@@ -137,6 +146,7 @@ export interface FileRouteTypes {
     | '/index-dailywiser'
     | '/landing'
     | '/mint'
+    | '/profile'
     | '/quiz-game'
     | '/solana-demo'
     | '/twitter'
@@ -151,6 +161,7 @@ export interface FileRouteTypes {
     | '/index-dailywiser'
     | '/landing'
     | '/mint'
+    | '/profile'
     | '/quiz-game'
     | '/solana-demo'
     | '/twitter'
@@ -165,6 +176,7 @@ export interface FileRouteTypes {
     | '/index-dailywiser'
     | '/landing'
     | '/mint'
+    | '/profile'
     | '/quiz-game'
     | '/solana-demo'
     | '/twitter'
@@ -180,6 +192,7 @@ export interface RootRouteChildren {
   IndexDailywiserRoute: typeof IndexDailywiserRoute
   LandingRoute: typeof LandingRoute
   MintRoute: typeof MintRoute
+  ProfileRoute: typeof ProfileRoute
   QuizGameRoute: typeof QuizGameRoute
   SolanaDemoRoute: typeof SolanaDemoRoute
   TwitterRoute: typeof TwitterRoute
@@ -214,6 +227,13 @@ declare module '@tanstack/react-router' {
       path: '/quiz-game'
       fullPath: '/quiz-game'
       preLoaderRoute: typeof QuizGameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mint': {
@@ -284,6 +304,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexDailywiserRoute: IndexDailywiserRoute,
   LandingRoute: LandingRoute,
   MintRoute: MintRoute,
+  ProfileRoute: ProfileRoute,
   QuizGameRoute: QuizGameRoute,
   SolanaDemoRoute: SolanaDemoRoute,
   TwitterRoute: TwitterRoute,

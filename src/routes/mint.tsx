@@ -1,12 +1,12 @@
+import { Metaplex, walletAdapterIdentity, toBigNumber } from '@metaplex-foundation/js';
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from "react";
-import { useWallet, useConnection } from '@solana/wallet-adapter-react';
-import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
-import { Metaplex, keypairIdentity, bundlrStorage, toBigNumber } from '@metaplex-foundation/js';
 import { Header } from "../components/Header";
-import { Card } from "../components/ui/card";
-import { Button } from "../components/ui/button";
 import { Badge } from "../components/ui/badge";
+import { Button } from "../components/ui/button";
+import { Card } from "../components/ui/card";
 import { useToast } from "../hooks/use-toast";
 
 function MintNFTPage() {
@@ -31,21 +31,12 @@ function MintNFTPage() {
     }
 
     setIsLoading(true);
-    setError('');
+    setError("");
     
     try {
       // Create Metaplex instance for devnet
       const metaplex = Metaplex.make(connection)
-        .use(keypairIdentity({
-          publicKey: wallet.publicKey,
-          signTransaction: wallet.signTransaction,
-          signAllTransactions: wallet.signAllTransactions,
-        }))
-        .use(bundlrStorage({ 
-          address: 'https://devnet.bundlr.network', 
-          providerUrl: 'https://api.devnet.solana.com', 
-          timeout: 60000 
-        }));
+        .use(walletAdapterIdentity(wallet));
 
       // Upload minimal metadata (required for Metaplex NFTs)
       const { uri } = await metaplex.nfts().uploadMetadata({
@@ -55,7 +46,7 @@ function MintNFTPage() {
         image: "", // Required property, can be empty for test
         attributes: [],
         properties: {},
-      }).run();
+      });
 
       // Create NFT
       const { nft } = await metaplex.nfts().create({
@@ -64,18 +55,18 @@ function MintNFTPage() {
         symbol: nftData.symbol,
         sellerFeeBasisPoints: 0, // 0% royalties
         maxSupply: toBigNumber(1),
-      }).run();
+      });
 
       setMintedNFT(nft.mint.address.toBase58());
       
       toast({
         title: "✅ NFT Minted Successfully!",
-        description: `Your NFT has been minted on Solana devnet`,
+        description: "Your NFT has been minted on Solana devnet",
       });
 
     } catch (error) {
-      console.error('NFT minting error:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      console.error("NFT minting error:", error);
+      const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
       setError(`Minting failed: ${errorMessage}`);
       
       toast({
@@ -90,7 +81,7 @@ function MintNFTPage() {
 
   const resetMint = () => {
     setMintedNFT(null);
-    setError('');
+    setError("");
     setNftData({
       name: "Test NFT",
       symbol: "TST",
@@ -157,8 +148,9 @@ function MintNFTPage() {
                 
                 <div className="grid gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-white mb-2">Name</label>
+                    <label htmlFor="nft-name" className="block text-sm font-medium text-white mb-2">Name</label>
                     <input
+                      id="nft-name"
                       type="text"
                       value={nftData.name}
                       onChange={(e) => setNftData(prev => ({ ...prev, name: e.target.value }))}
@@ -168,8 +160,9 @@ function MintNFTPage() {
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-white mb-2">Symbol</label>
+                    <label htmlFor="nft-symbol" className="block text-sm font-medium text-white mb-2">Symbol</label>
                     <input
+                      id="nft-symbol"
                       type="text"
                       value={nftData.symbol}
                       onChange={(e) => setNftData(prev => ({ ...prev, symbol: e.target.value }))}
@@ -180,8 +173,9 @@ function MintNFTPage() {
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-white mb-2">Description</label>
+                    <label htmlFor="nft-description" className="block text-sm font-medium text-white mb-2">Description</label>
                     <textarea
+                      id="nft-description"
                       value={nftData.description}
                       onChange={(e) => setNftData(prev => ({ ...prev, description: e.target.value }))}
                       className="w-full p-3 bg-muted/10 border border-muted rounded-lg text-white"
@@ -199,7 +193,7 @@ function MintNFTPage() {
                   >
                     {isLoading ? (
                       <div className="flex items-center gap-2">
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" />
                         Minting NFT...
                       </div>
                     ) : (

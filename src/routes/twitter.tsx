@@ -4,7 +4,7 @@ import { Header } from "../components/Header";
 import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { Badge } from "../components/ui/badge";
-import { Twitter } from "../components/icons";
+import { Twitter, ArrowLeft, CheckCircle } from "../components/icons";
 import { useToast } from "../hooks/use-toast";
 import { XOAuthAPI, getBackendUrl, generateXOAuthUrl } from "../libs/api";
 
@@ -38,7 +38,7 @@ function generateState() {
     .replace(/=/g, '');
 }
 
-function TwitterAuthPage() {
+function TwitterLinkPage() {
   const [config] = useState({
     clientId: import.meta.env.VITE_X_CLIENT_ID || '',
     redirectUri: `${window.location.origin}/twitter`,
@@ -50,7 +50,7 @@ function TwitterAuthPage() {
   const [userProfile, setUserProfile] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const [step, setStep] = useState<'config' | 'auth' | 'callback' | 'success' | 'error'>('config');
+  const [step, setStep] = useState<'link' | 'auth' | 'callback' | 'success' | 'error'>('link');
   
   const { toast } = useToast();
 
@@ -197,7 +197,7 @@ function TwitterAuthPage() {
     localStorage.removeItem('x_access_token');
     setTokens(null);
     setUserProfile(null);
-    setStep('config');
+    setStep('link');
     setError('');
     setAuthUrl('');
     localStorage.removeItem('oauth_code_verifier');
@@ -210,7 +210,7 @@ function TwitterAuthPage() {
   };
 
   const resetFlow = () => {
-    setStep('config');
+    setStep('link');
     setError('');
     setTokens(null);
     setUserProfile(null);
@@ -219,78 +219,76 @@ function TwitterAuthPage() {
     localStorage.removeItem('oauth_state');
   };
 
+  const goToProfile = () => {
+    window.location.href = '/profile';
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
       <div className="container mx-auto px-4 py-8">
-        <Card className="max-w-4xl mx-auto p-8">
+        <Card className="max-w-2xl mx-auto p-8">
           <div className="flex items-center gap-3 mb-6">
+            <Button 
+              onClick={goToProfile}
+              variant="ghost"
+              size="sm"
+              className="p-2"
+            >
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
             <Twitter className="h-8 w-8 text-primary" />
             <div>
-              <h1 className="text-2xl font-bold text-white">X OAuth Demo (Backend Fixed)</h1>
+              <h1 className="text-2xl font-bold text-white">Link Twitter Account</h1>
               <p className="text-sm text-muted-foreground">
-                Test X OAuth with PKCE flow. Backend handles token exchange securely, fixing CORS issues.
+                Connect your Twitter account to your profile
               </p>
             </div>
           </div>
 
-          {/* Backend Status */}
-          <div className="mb-6">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <span>Backend URL:</span>
-              <code className="text-xs bg-muted/20 px-2 py-1 rounded">{getBackendUrl()}</code>
-              <Button 
-                onClick={testBackendConnection}
-                size="sm"
-                variant="outline"
-                className="text-xs"
-              >
-                Test Connection
-              </Button>
-            </div>
-          </div>
-
           {/* Error Display */}
-          {error && (step === 'error' || step === 'config') && (
+          {error && (step === 'error' || step === 'link') && (
             <div className="mb-6 p-4 bg-red-500/10 border border-red-400/30 rounded-lg">
               <div className="text-red-400 font-medium">Error</div>
               <div className="text-sm text-red-300">{error}</div>
             </div>
           )}
 
-          {/* Step: Configuration */}
-          {step === 'config' && (
+          {/* Step: Link Twitter */}
+          {step === 'link' && (
             <div className="space-y-6">
-              <div>
-                <h2 className="text-lg font-semibold text-white mb-4">OAuth Configuration</h2>
+              <div className="text-center py-8">
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Twitter className="w-8 h-8 text-primary" />
+                </div>
+                <h2 className="text-lg font-semibold text-white mb-2">Connect Your Twitter Account</h2>
+                <p className="text-sm text-muted-foreground mb-6">
+                  Link your Twitter account to access your profile information and connect with other users.
+                </p>
                 
-                <div className="grid gap-4">
-                  <div className="flex items-center justify-between p-3 bg-muted/10 rounded-lg">
-                    <span className="text-sm">Client ID</span>
-                    <Badge variant={config.clientId ? "default" : "outline"}>
-                      {config.clientId ? "✅ Configured" : "❌ Missing"}
-                    </Badge>
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3 p-3 bg-muted/10 rounded-lg">
+                    <CheckCircle className="w-5 h-5 text-green-400" />
+                    <span className="text-sm text-white">Access your Twitter profile</span>
                   </div>
-                  
-                  <div className="bg-green-500/10 border border-green-400/30 rounded-lg p-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-green-400">🔒</span>
-                      <span className="text-sm font-medium text-green-300">Client Secret Secured</span>
-                    </div>
-                    <p className="text-xs text-green-400/80">
-                      Client secret is now securely stored in the backend environment (X_CLIENT_SECRET).
-                      This fixes CORS issues and keeps your credentials safe.
-                    </p>
+                  <div className="flex items-center gap-3 p-3 bg-muted/10 rounded-lg">
+                    <CheckCircle className="w-5 h-5 text-green-400" />
+                    <span className="text-sm text-white">View your followers and following</span>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 bg-muted/10 rounded-lg">
+                    <CheckCircle className="w-5 h-5 text-green-400" />
+                    <span className="text-sm text-white">Connect with other users</span>
                   </div>
                 </div>
 
-                <div className="mt-6">
+                <div className="mt-8">
                   <Button
                     onClick={generateAuthUrl}
                     disabled={!config.clientId}
                     className="w-full"
+                    size="lg"
                   >
-                    {!config.clientId ? 'Configure client ID first' : 'Start X OAuth Flow'}
+                    {!config.clientId ? 'Twitter integration not configured' : 'Link Twitter Account'}
                   </Button>
                 </div>
               </div>
@@ -300,27 +298,20 @@ function TwitterAuthPage() {
           {/* Step: Auth URL Generated */}
           {step === 'auth' && (
             <div className="space-y-6">
-              <div>
-                <h2 className="text-lg font-semibold text-white mb-4">Authorize with X</h2>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Click the link below to authorize your application with X:
-                </p>
-                <div className="p-4 bg-muted/10 rounded-lg break-all">
-                  <a 
-                    href={authUrl} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-primary hover:text-primary/80 underline text-sm"
-                  >
-                    {authUrl}
-                  </a>
+              <div className="text-center py-8">
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Twitter className="w-8 h-8 text-primary" />
                 </div>
-                <div className="flex gap-2 mt-4">
-                  <Button onClick={() => window.open(authUrl, '_blank')}>
-                    Open Authorization URL
+                <h2 className="text-lg font-semibold text-white mb-2">Authorize with Twitter</h2>
+                <p className="text-sm text-muted-foreground mb-6">
+                  Click the button below to open Twitter and authorize the connection:
+                </p>
+                <div className="flex gap-2 justify-center">
+                  <Button onClick={() => window.open(authUrl, '_blank')} size="lg">
+                    Open Twitter Authorization
                   </Button>
                   <Button variant="outline" onClick={resetFlow}>
-                    Reset Flow
+                    Cancel
                   </Button>
                 </div>
               </div>
@@ -331,9 +322,9 @@ function TwitterAuthPage() {
           {step === 'callback' && (
             <div className="text-center py-8">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-              <h2 className="text-lg font-semibold text-white mb-2">Processing Authorization...</h2>
+              <h2 className="text-lg font-semibold text-white mb-2">Linking Your Account...</h2>
               <p className="text-sm text-muted-foreground">
-                Exchanging authorization code for access token via backend
+                Please wait while we connect your Twitter account
               </p>
             </div>
           )}
@@ -341,43 +332,46 @@ function TwitterAuthPage() {
           {/* Step: Success */}
           {step === 'success' && tokens && (
             <div className="space-y-6">
-              <div className="flex items-center gap-2 mb-4">
-                <span className="text-2xl">✅</span>
-                <h2 className="text-lg font-semibold text-white">Authentication Successful!</h2>
-              </div>
-
-              {/* Token Info */}
-              <div className="space-y-3">
-                <div className="p-4 bg-green-500/10 border border-green-400/30 rounded-lg">
-                  <div className="text-green-400 font-medium mb-2">Access Token Received</div>
-                  <div className="text-xs text-green-300 font-mono bg-black/20 p-2 rounded">
-                    {tokens.access_token?.substring(0, 20)}...
-                  </div>
+              <div className="text-center py-8">
+                <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <CheckCircle className="w-8 h-8 text-green-400" />
                 </div>
+                <h2 className="text-lg font-semibold text-white mb-2">Twitter Account Linked!</h2>
+                <p className="text-sm text-muted-foreground mb-6">
+                  Your Twitter account has been successfully connected to your profile.
+                </p>
 
                 {/* User Profile */}
                 {userProfile && (
-                  <div className="p-4 bg-blue-500/10 border border-blue-400/30 rounded-lg">
-                    <div className="text-blue-400 font-medium mb-2">User Profile</div>
-                    <div className="space-y-1 text-sm">
-                      <div><strong>Name:</strong> {userProfile.name}</div>
-                      <div><strong>Username:</strong> @{userProfile.username}</div>
-                      <div><strong>ID:</strong> {userProfile.id}</div>
-                      {userProfile.public_metrics && (
-                        <div><strong>Followers:</strong> {userProfile.public_metrics.followers_count}</div>
-                      )}
+                  <div className="p-4 bg-blue-500/10 border border-blue-400/30 rounded-lg mb-6">
+                    <div className="text-blue-400 font-medium mb-3">Connected Account</div>
+                    <div className="flex items-center gap-3">
+                      <img 
+                        src={userProfile.profile_image_url} 
+                        alt="Twitter Profile" 
+                        className="w-12 h-12 rounded-full"
+                      />
+                      <div className="text-left">
+                        <div className="font-medium text-white">{userProfile.name}</div>
+                        <div className="text-sm text-muted-foreground">@{userProfile.username}</div>
+                        {userProfile.public_metrics && (
+                          <div className="text-xs text-muted-foreground">
+                            {userProfile.public_metrics.followers_count} followers
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 )}
-              </div>
 
-              <div className="flex gap-2">
-                <Button onClick={signOut} variant="outline">
-                  Sign Out
-                </Button>
-                <Button onClick={resetFlow} variant="outline">
-                  Test Again
-                </Button>
+                <div className="flex gap-2 justify-center">
+                  <Button onClick={goToProfile} size="lg">
+                    Go to Profile
+                  </Button>
+                  <Button onClick={signOut} variant="outline">
+                    Unlink Account
+                  </Button>
+                </div>
               </div>
             </div>
           )}
@@ -386,11 +380,16 @@ function TwitterAuthPage() {
           {step === 'error' && (
             <div className="text-center py-8">
               <div className="text-4xl mb-4">❌</div>
-              <h2 className="text-lg font-semibold text-white mb-2">Authentication Failed</h2>
+              <h2 className="text-lg font-semibold text-white mb-2">Connection Failed</h2>
               <p className="text-sm text-muted-foreground mb-4">{error}</p>
-              <Button onClick={resetFlow}>
-                Try Again
-              </Button>
+              <div className="flex gap-2 justify-center">
+                <Button onClick={resetFlow}>
+                  Try Again
+                </Button>
+                <Button onClick={goToProfile} variant="outline">
+                  Back to Profile
+                </Button>
+              </div>
             </div>
           )}
         </Card>
@@ -400,5 +399,5 @@ function TwitterAuthPage() {
 }
 
 export const Route = createFileRoute('/twitter')({
-  component: TwitterAuthPage,
+  component: TwitterLinkPage,
 });
