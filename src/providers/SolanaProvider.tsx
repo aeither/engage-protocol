@@ -22,13 +22,13 @@ interface SolanaProviderProps {
 
 export const SolanaProvider: FC<SolanaProviderProps> = ({ children }) => {
   // Choose network: 'devnet', 'testnet', or 'mainnet-beta'
-  const network = WalletAdapterNetwork.Testnet;
+  const network = WalletAdapterNetwork.Devnet;
   
   // You can use custom RPC endpoints for better performance
   const endpoint = useMemo(() => {
-    if (network === WalletAdapterNetwork.Testnet) {
-      // Try multiple testnet endpoints for better reliability
-      return import.meta.env.VITE_SOLANA_RPC_URL || 'https://api.testnet.solana.com';
+    if (network === WalletAdapterNetwork.Devnet) {
+      // Use devnet endpoint for NFT minting
+      return import.meta.env.VITE_SOLANA_RPC_URL || 'https://api.devnet.solana.com';
     }
     return clusterApiUrl(network);
   }, [network]);

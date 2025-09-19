@@ -54,7 +54,7 @@ function TwitterAuthPage() {
   
   const { toast } = useToast();
 
-  // Check for auth code in URL params on mount  
+  // Check for auth code in URL params or existing token on mount  
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
@@ -70,6 +70,15 @@ function TwitterAuthPage() {
     if (code && state) {
       setStep('callback');
       handleTokenExchange(code, state);
+      return;
+    }
+    
+    // Check for existing token in localStorage
+    const existingToken = localStorage.getItem('x_access_token');
+    if (existingToken) {
+      setTokens({ access_token: existingToken });
+      setStep('success');
+      fetchUserProfile(existingToken);
     }
   }, []);
 
@@ -137,6 +146,13 @@ function TwitterAuthPage() {
     try {
       const tokenData = await XOAuthAPI.exchangeToken(code, codeVerifier, config.redirectUri);
       setTokens(tokenData);
+      
+      // Store token in localStorage for persistence
+      if (tokenData.access_token) {
+        localStorage.setItem('x_access_token', tokenData.access_token);
+      }
+      
+      setError(''); // Clear any previous errors
       setStep('success');
       
       toast({
@@ -167,8 +183,30 @@ function TwitterAuthPage() {
       });
     } catch (error) {
       console.error('Failed to fetch user profile:', error);
-      setError(`Failed to fetch user profile: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      // Don't set error state since authentication was successful
+      // Just show a toast notification for the profile fetch failure
+      toast({
+        title: "⚠️ Profile Fetch Warning",
+        description: "Authentication successful, but couldn't load profile details.",
+        variant: "destructive",
+      });
     }
+  };
+
+  const signOut = () => {
+    localStorage.removeItem('x_access_token');
+    setTokens(null);
+    setUserProfile(null);
+    setStep('config');
+    setError('');
+    setAuthUrl('');
+    localStorage.removeItem('oauth_code_verifier');
+    localStorage.removeItem('oauth_state');
+    
+    toast({
+      title: "✅ Signed Out",
+      description: "You have been successfully signed out.",
+    });
   };
 
   const resetFlow = () => {
@@ -213,7 +251,7 @@ function TwitterAuthPage() {
           </div>
 
           {/* Error Display */}
-          {error && (
+          {error && (step === 'error' || step === 'config') && (
             <div className="mb-6 p-4 bg-red-500/10 border border-red-400/30 rounded-lg">
               <div className="text-red-400 font-medium">Error</div>
               <div className="text-sm text-red-300">{error}</div>
@@ -334,6 +372,9 @@ function TwitterAuthPage() {
               </div>
 
               <div className="flex gap-2">
+                <Button onClick={signOut} variant="outline">
+                  Sign Out
+                </Button>
                 <Button onClick={resetFlow} variant="outline">
                   Test Again
                 </Button>
