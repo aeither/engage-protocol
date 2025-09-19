@@ -7,6 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Clock, Users, ExternalLink, Ticket, Twitter, Heart, Repeat, MessageCircle, Trophy } from "./icons";
 import { useToast } from "../hooks/use-toast";
 import type { Campaign } from "../data/mockCampaigns";
+import { openPartnerTwitter, getPartnerTwitterHandle } from "../data/mockCampaigns";
 
 interface CampaignCardProps {
   campaign: Campaign;
@@ -349,7 +350,15 @@ export function CampaignCard({ campaign, isWalletConnected, userHasJoined }: Cam
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => handleVerifyAction("Post Interaction (+1 ticket)")}
+                    onClick={(e: React.MouseEvent) => {
+                      e.stopPropagation();
+                      openPartnerTwitter(campaign.partner);
+                      const twitterHandle = getPartnerTwitterHandle(campaign.partner);
+                      toast({
+                        title: "Opening Twitter Profile",
+                        description: `Visit @${twitterHandle} to interact with their posts and earn tickets!`,
+                      });
+                    }}
                     className="flex items-center gap-2 bg-gradient-to-r from-purple-500/10 to-blue-500/10 border-purple-300/30"
                   >
                     <ExternalLink className="h-4 w-4 text-purple-400" />

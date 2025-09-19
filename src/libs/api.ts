@@ -2,7 +2,9 @@
 
 // Get backend URL from environment variable
 export const getBackendUrl = (): string => {
-  return import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
+  const url = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
+  // Remove trailing slash to prevent double slashes in API calls
+  return url.endsWith('/') ? url.slice(0, -1) : url;
 };
 
 // X OAuth API calls using backend proxy

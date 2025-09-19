@@ -219,3 +219,24 @@ export const getUserCampaignParticipation = (campaignId: string): boolean => {
   const participatedCampaigns = ['1', '2', '3', '5'];
   return participatedCampaigns.includes(campaignId);
 };
+
+// Partner to Twitter handle mapping
+export const getPartnerTwitterHandle = (partner: string): string => {
+  const twitterHandles: Record<string, string> = {
+    "Phantom Wallet": "phantom",
+    "Jupiter Exchange": "JupiterExchange", 
+    "Magic Eden": "MagicEden",
+    "Raydium": "RaydiumProtocol",
+    "Metaplex": "metaplex",
+    "Orca": "orca_so"
+  };
+  
+  return twitterHandles[partner] || partner.toLowerCase().replace(/\s+/g, '');
+};
+
+// Function to open Twitter profile for a partner
+export const openPartnerTwitter = (partner: string): void => {
+  const handle = getPartnerTwitterHandle(partner);
+  const twitterUrl = `https://x.com/${handle}`;
+  window.open(twitterUrl, '_blank');
+};
