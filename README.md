@@ -6,7 +6,7 @@ DailyWiser turns learning into a real rewards. Earn tokens by completing quizzes
 
 ## DEMO
 
-https://dailywiser.vercel.app/
+https://dailywiser-solana.vercel.app/
 
 ## Overview
 
