@@ -1,8 +1,6 @@
-# 🏛️ DailyWiser
+# Engage Protocol
 
-a game-like learning app where users earn rewards by answering quizzes and challenging others turning study into friendly competition, with real benefits for every correct answer
-
-DailyWiser turns learning into a real rewards. Earn tokens by completing quizzes and battle friends in live quiz duels.
+A Web3 engagement and learning platform built on Solana that transforms social interactions and educational activities into rewarding experiences. Users earn cryptocurrency by participating in campaigns, completing quizzes, and engaging with partner communities.
 
 ## DEMO
 
@@ -10,349 +8,422 @@ https://dailywiser-solana.vercel.app/
 
 ## Overview
 
-We're building a fun, game-like learning app where you earn rewards for answering quizzes and challenging others. Think of it as studying meets competition, and every question you get right brings real benefits
+Engage Protocol bridges Web2 social engagement with Web3 token economics, creating a sustainable ecosystem where users, creators, and protocols all benefit. Whether you're learning about blockchain, engaging with partner campaigns, or creating educational content, Engage Protocol rewards meaningful participation.
 
-**The Future of Decentralized Learning & Earning**
+**The Future of Engage-to-Earn & Learn-to-Earn**
 
-DailyWiser transforms education into a gamified experience where knowledge acquisition directly translates to real rewards. Built for the Solana blockchain ecosystem, we're bridging the gap between traditional learning and Web3 incentives.
+Built on Solana's high-performance blockchain, Engage Protocol delivers instant rewards, low transaction costs, and a seamless user experience that makes Web3 accessible to everyone.
 
-## 🎯 The Problem
+## The Problem
 
-### Current State of Education
-- **Low Engagement**: Traditional learning platforms struggle to maintain user motivation
-- **No Real Rewards**: Learners complete courses but gain nothing tangible
-- **Isolated Experience**: Learning happens in silos without community or competition
+### Current State of Engagement & Learning
+- **Low Engagement**: Traditional platforms struggle to maintain user motivation
+- **No Real Rewards**: Users engage but receive nothing tangible in return
+- **Creator Monetization**: Content creators lack sustainable revenue streams
 - **Web2 Limitations**: Centralized platforms control user data and rewards
+- **Isolated Communities**: No cross-platform incentives or interoperability
 
 ### Market Opportunity
 - **$250B+ Global EdTech Market** growing at 16% annually
-- **Web3 Education** is the next frontier with $50B+ potential
-- **Gamification** increases learning retention by 60%
-- **Tokenized Rewards** create sustainable engagement loops
+- **Social Media Engagement** market worth $150B+
+- **Web3 Social & Education** next frontier with $50B+ potential
+- **Token-Gated Communities** creating new engagement models
 
-## 💡 The Solution
+## The Solution
 
-### DailyWiser: Learn-to-Earn Platform
-DailyWiser combines **interactive quizzes**, **gamified quests**, and **blockchain rewards** to create the most engaging learning experience in Web3.
+### Engage Protocol: Multi-Dimensional Engagement Platform
+
+Engage Protocol combines **campaign raffles**, **gamified quizzes**, **NFT creation**, and **community guilds** to create the most comprehensive engagement platform in Web3.
 
 **Core Value Proposition:**
-- **Earn While You Learn**: Complete quizzes and quests to earn Yuzu Points
-- **Competitive Learning**: Real-time leaderboards drive engagement
-- **Seasonal Rewards**: Structured competitions with clear incentives
-- **Web3 Native**: Seamless wallet integration and on-chain rewards
+- **Engage to Earn**: Complete campaigns and earn raffle tickets for prizes
+- **Learn to Earn**: Take quizzes and earn SOL rewards based on performance
+- **Create to Earn**: Mint NFT quizzes and earn royalties from players
+- **Build to Earn**: Join guilds, contribute to treasuries, win battles together
 
-## 🏗️ Architecture
+## Key Features
 
-<img width="939" height="520" alt="image" src="https://github.com/user-attachments/assets/58255b2e-5227-4f13-b5d2-f8f7867da10a" />
+### Campaign & Raffle System
+The heart of Engage Protocol's engagement mechanics:
 
+- **Partner Campaigns**: Protocols and brands create campaigns with token/NFT prizes
+- **Unlimited Ticket Earning**: More interactions = more tickets = better odds
+- **Multiple Actions**: Follow, like, retweet, reply to earn tickets
+- **Real-time Tracking**: Live leaderboards show your rank and ticket count
+- **Transparent Results**: On-chain winner selection (coming soon)
+- **Active Partners**: Phantom, Jupiter, Magic Eden, Raydium, Metaplex, Orca
+
+**How It Works:**
+```
+Join Campaign → Complete Social Actions → Earn Tickets →
+Repeat for More Tickets → Wait for Drawing → Win Prizes
+```
+
+### Quiz & Learning System
+
+Learn about blockchain, DeFi, NFTs, and Web3 while earning real SOL rewards:
+
+**Solo Quiz Mode:**
+- **Entry Fee**: 0.001 SOL minimum (affordable for everyone)
+- **Multiple Topics**: Blockchain Fundamentals, Web3 Gaming, Layer 2, DeFi, NFTs
+- **Time Limit**: 1 hour to complete each quiz
+- **On-Chain Rewards**: Instant settlement via Solana smart contract
+
+**Reward Structure:**
+- **0-1 correct answers**: Entry fee goes to vault (try again!)
+- **2 correct answers**: Entry fee refunded + 5-25% bonus
+- **3 correct answers**: Entry fee refunded + 10-90% bonus
+- **All correct**: Maximum bonus reward!
+
+**Quiz Topics Available:**
+- Blockchain Fundamentals
+- Web3 Gaming & Metaverse
+- Layer 2 Solutions & Scaling
+- DeFi Protocols & Strategies
+- NFT Standards & Marketplaces
+- Solana Ecosystem Deep Dive
+
+### NFT Minting & Creator Economy
+
+Empower creators with tools to monetize educational content:
+
+- **Simple NFT Creation**: Mint directly on Solana Devnet
+- **Quiz NFTs**: Create educational quizzes as tradable NFTs
+- **Automatic Royalties**: EIP-2981 standard for creator earnings
+- **Play-to-Earn**: Players pay to take quiz, creators earn royalties
+- **Metaplex Integration**: Industry-standard NFT infrastructure
+- **Achievement Badges**: On-chain proof of learning milestones
+
+**Creator Revenue Model:**
+```
+Create Quiz → Mint as NFT → Set Play Fee →
+Users Play Quiz → Earn Royalties → Track Performance
+```
+
+### Guild System
+
+Build communities and compete together:
+
+- **Guild Creation**: Form guilds with friends or community members
+- **Shared Treasury**: Pool SOL for guild battles and rewards
+- **Guild Battles**: Challenge other guilds in quiz competitions
+- **Collaborative Rewards**: Win together, share rewards together
+- **Member Management**: Track contributions and achievements
+- **Reputation System**: Build guild reputation through victories
+
+### Social Integration
+
+Native integration with popular Web3 social platforms:
+
+- **Twitter/X OAuth**: Verified identity and profile linking
+- **Farcaster Frames**: Native Frame SDK for viral social quizzes
+- **Action Tracking**: Automatic follow, like, retweet, reply detection
+- **Profile System**: Social reputation across all platforms
+- **Engagement Analytics**: Track your social impact
+
+## Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    USER INTERFACE LAYER                      │
+│         React + TypeScript + Tailwind CSS + Framer          │
+└─────────────────────────────────────────────────────────────┘
+                             │
+        ┌────────────────────┼────────────────────┐
+        │                    │                    │
+┌───────▼───────┐    ┌──────▼──────┐    ┌───────▼────────┐
+│  TanStack     │    │   Solana    │    │    Hono        │
+│  Router +     │    │   Web3.js   │    │    Backend     │
+│  React Query  │    │   Metaplex  │    │   (Vercel)     │
+└───────────────┘    └─────────────┘    └────────────────┘
+                             │
+        ┌────────────────────┼────────────────────┐
+        │                    │                    │
+┌───────▼───────┐    ┌──────▼──────┐    ┌───────▼────────┐
+│   Quiz Game   │    │   NFT Mint  │    │  Twitter/X     │
+│   Contract    │    │   Program   │    │   OAuth API    │
+│  (Solana)     │    │  (Metaplex) │    │   Proxy        │
+└───────────────┘    └─────────────┘    └────────────────┘
+```
 
 ### Technical Stack
+
 ```
-Frontend: React + TypeScript + Vite
-Database: PostgreSQL + Drizzle ORM
-Web3: Wagmi + Viem + Core Testnet
-UI: Tailwind CSS + Custom Design System
+Frontend: React 18 + TypeScript + Vite
+Routing: TanStack React Router v1.87
+State: React Query 5.45 + React Context
+UI: Tailwind CSS 4 + Framer Motion 11
+Blockchain: Solana Web3.js + Metaplex JS
+Wallets: Phantom, Solflare, Torus, Ledger
+Backend: Hono (Modern Web Server)
 Deployment: Vercel + Railway
-Smart Contracts: Solidity 0.8.30 + Foundry
+Smart Contracts: Anchor Framework + Rust
+Network: Solana Devnet/Testnet
 ```
 
-### Smart Contract Integration
-- **Token1.sol**: SPL reward token for the DailyWiser ecosystem
-- **QuizGame.sol**: On-chain quiz management and reward distribution
-- **QuizDuel.sol**: PvP battle system with escrow and reward distribution  
-- **GuildSystem.sol**: Guild formation, treasury management, and group battles
-- **QuizNFT.sol**: NFT creator economy with EIP-2981 royalty standards
-- **Farcaster Integration**: Social learning with Frame SDK
+## Smart Contracts
 
-### Database Schema
-```sql
--- Core Learning System
-users (wallet_address, total_points, quizzes_completed)
-quizzes (title, category, difficulty, questions, points_reward)
-quiz_attempts (user_id, quiz_id, score, points_earned)
+### Quiz Game Contract
 
--- Gamification Layer
-quests (title, category, points_reward, requirements)
-leaderboard_entries (user_id, season_id, rank, points)
-seasons (name, start_date, end_date, is_active)
+Deployed on Solana Devnet: `2wSzeesj4BVQtrzLDSR3YdqZ1nDnDtWV1E8tNpvJimZk`
 
--- PvP Duel System
-quiz_duels (id, challenger_id, opponent_id, topic, entry_fee, status, winner_id)
-duel_results (duel_id, user_id, score, time_spent, rewards_earned)
+**Core Functions:**
+
+```rust
+// Initialize game state and vault
+initialize(ctx: Context<Initialize>)
+
+// Start quiz with SOL entry fee
+start_quiz(ctx: Context<StartQuiz>, quiz_id: String, user_answer: u64)
+
+// Complete quiz and claim rewards
+complete_quiz(ctx: Context<CompleteQuiz>, final_answer: u64)
+
+// Authority functions
+withdraw(ctx: Context<Withdraw>, amount: u64)
+update_vault(ctx: Context<UpdateVault>)
+fund_vault(ctx: Context<FundVault>)
 ```
 
-## 🔗 Smart Contracts
+**State Management:**
 
-### Contract Architecture
-All smart contracts are deployed on **Solana Devnet** for fast, low-cost transactions.
+```rust
+GameState {
+  authority: Pubkey,        // Admin address
+  vault: Pubkey,           // Reward distribution vault
+  total_games: u64,        // Total quizzes played
+  total_rewards: u64,      // Total SOL distributed
+}
 
-#### **Token1.sol** - Reward Token
-```solidity
-// SPL token for DailyWiser ecosystem rewards
-contract Token1 is ERC20 {
-    mapping(address => bool) public authorizedMinters;
-    
-    function mint(address to, uint256 amount) external {
-        require(authorizedMinters[msg.sender], "Not authorized");
-        _mint(to, amount);
-    }
+QuizSession {
+  active: bool,            // Session status
+  user_answer: u64,        // User's submitted answer
+  amount_paid: u64,        // Entry fee in lamports
+  timestamp: i64,          // Session start time
+  quiz_id: String,         // Quiz identifier
+  user: Pubkey,           // Player address
 }
 ```
 
-#### **QuizGame.sol** - Solo Quiz System
-```solidity
-// On-chain quiz management with instant rewards
-contract QuizGame {
-    mapping(address => uint256) public userScores;
-    mapping(string => Quiz) public quizzes;
-    
-    function startQuiz(string memory quizId, uint256 answer) external payable {
-        // Entry fee validation and initial token minting
-        require(msg.value >= QUIZ_ENTRY_FEE, "Insufficient entry fee");
-        token.mint(msg.sender, INITIAL_REWARD);
-    }
-    
-    function completeQuiz(uint256 finalAnswer) external {
-        // Score validation and bonus token distribution
-        uint256 bonus = calculateBonus(msg.sender, finalAnswer);
-        token.mint(msg.sender, bonus);
-    }
-}
+**Reward Mechanics:**
+
+- Perfect score (3+ correct): 10-90% bonus
+- Good score (2+ correct): 5-25% bonus
+- Poor score (0-1 correct): Entry fee to vault
+- Minimum entry: 0.001 SOL (1,000,000 lamports)
+- Time limit: 1 hour per session
+
+### Future Contracts
+
+**QuizDuel.sol** - PvP Quiz Battles
+```
+- Commit-reveal scheme for fair play
+- Escrow entry fees
+- Winner-takes-all reward distribution
+- Topic-based matchmaking
 ```
 
-#### **QuizDuel.sol** - PvP Battle System
-```solidity
-// Real-time PvP duels with commit-reveal scheme
-contract QuizDuel {
-    struct Duel {
-        address challenger;
-        address opponent;
-        uint256 entryFee;
-        uint256 prizePool;
-        DuelState state;
-    }
-    
-    function startDuel(address opponent, uint256 stake) external payable {
-        // Create duel with entry fees
-        require(msg.value >= MIN_ENTRY_FEE, "Insufficient stake");
-        duels[duelId] = Duel(msg.sender, opponent, msg.value, msg.value * 2, DuelState.Active);
-    }
-    
-    function submitAnswer(bytes32 hashedAnswer) external {
-        // Commit-reveal implementation for fair play
-        commitments[msg.sender] = hashedAnswer;
-    }
-    
-    function revealAnswer(uint256 answer, bytes32 salt) external {
-        // Reveal and determine winner
-        require(keccak256(abi.encodePacked(answer, salt)) == commitments[msg.sender]);
-        determineWinner(msg.sender, answer);
-    }
-}
+**GuildSystem.sol** - Community Management
+```
+- Guild creation and treasury
+- Member management
+- Guild-vs-Guild battles
+- Reward distribution
 ```
 
-#### **GuildSystem.sol** - Community Management
-```solidity
-// Guild formation with treasury and group battles
-contract GuildSystem {
-    struct Guild {
-        string name;
-        address[] members;
-        uint256 treasury;
-        uint256 wins;
-        uint256 totalEarnings;
-    }
-    
-    function createGuild(string memory name) external payable {
-        // Guild registration with initial treasury
-        require(msg.value >= MIN_TREASURY, "Insufficient initial treasury");
-        guilds[guildId] = Guild(name, [msg.sender], msg.value, 0, 0);
-    }
-    
-    function contributeToTreasury(uint256 guildId) external payable {
-        // Treasury funding by guild members
-        guilds[guildId].treasury += msg.value;
-        emit TreasuryContributed(guildId, msg.sender, msg.value);
-    }
-    
-    function startGuildBattle(uint256 guild1, uint256 guild2) external payable {
-        // Guild vs Guild battle with prize pool
-        require(msg.value >= MIN_BATTLE_PRIZE, "Insufficient prize pool");
-        battles[battleId] = Battle(guild1, guild2, msg.value, BattleState.Active);
-    }
-}
+**QuizNFT.sol** - Creator Economy
+```
+- NFT quiz creation
+- EIP-2981 royalty standards
+- Play-to-earn mechanics
+- Creator analytics
 ```
 
-#### **QuizNFT.sol** - Creator Economy
-```solidity
-// NFT quiz creator with EIP-2981 royalties
-contract QuizNFT is ERC721, ERC721URIStorage, IERC2981 {
-    struct Quiz {
-        string title;
-        address creator;
-        uint256 playFee;
-        uint256 royaltyPercent;
-        uint256 playCount;
-        uint256 totalEarnings;
-        string ipfsHash;
-    }
-    
-    function mintQuiz(
-        string memory title,
-        uint256 playFee,
-        uint256 royaltyPercent,
-        string memory ipfsHash
-    ) external returns (uint256) {
-        // NFT creation with royalty setup
-        uint256 tokenId = nextTokenId++;
-        quizzes[tokenId] = Quiz(title, msg.sender, playFee, royaltyPercent, 0, 0, ipfsHash);
-        _mint(msg.sender, tokenId);
-    }
-    
-    function playQuiz(uint256 tokenId, uint256 score) external payable {
-        // Quiz playing with automatic royalty distribution
-        Quiz storage quiz = quizzes[tokenId];
-        require(msg.value >= quiz.playFee, "Insufficient payment");
-        
-        uint256 royaltyAmount = (msg.value * quiz.royaltyPercent) / 10000;
-        (bool success, ) = quiz.creator.call{value: royaltyAmount}("");
-        require(success, "Royalty payment failed");
-        
-        quiz.playCount++;
-        quiz.totalEarnings += msg.value;
-    }
-    
-    function royaltyInfo(uint256 tokenId, uint256 salePrice) 
-        external view override returns (address, uint256) {
-        // EIP-2981 royalty standard implementation
-        address creator = quizzes[tokenId].creator;
-        uint256 royaltyAmount = (salePrice * quizzes[tokenId].royaltyPercent) / 10000;
-        return (creator, royaltyAmount);
-    }
-}
+## User Flows
+
+### 1. Campaign Engagement Flow
+```
+Connect Wallet → View Active Campaigns → Join Campaign →
+Complete Social Actions (Follow/Like/Retweet/Reply) →
+Earn More Tickets → Check Leaderboard → Win Prizes
 ```
 
-### Core Blockchain Integration
-- **Fast Finality**: Sub-second transaction confirmation enables real-time gaming
-- **Low Gas Costs**: Affordable fees make micro-rewards economically viable  
-- **EVM Compatibility**: Seamless integration with existing Web3 tooling
-- **Real-time Updates**: Instant state changes for live user experiences
+### 2. Quiz Learning Flow
+```
+Select Quiz Topic → Pay Entry Fee (0.001 SOL) →
+Answer Questions → Submit Answers → View Score →
+Receive SOL Reward (Based on Performance)
+```
 
-## 🚀 Key Features
+### 3. NFT Creation Flow
+```
+Connect Solana Wallet → Create Quiz Content →
+Set Play Fee & Royalty % → Mint as NFT →
+Users Play → Earn Royalties
+```
 
-### 📚 Learning Engine
-- **Personalized Quizzes**: AI-driven content based on user progress
-- **Multi-Category Content**: Math, Science, History, Web3, and more
-- **Adaptive Difficulty**: Questions adjust to user skill level
-- **Real-time Feedback**: Immediate explanations and learning tips
+### 4. Guild Participation Flow
+```
+Create/Join Guild → Contribute to Treasury →
+Participate in Guild Battles → Win Battles →
+Share Rewards → Build Guild Reputation
+```
 
-### 🎮 Gamification System
-- **Daily Challenges**: Consistent engagement through daily quests
-- **Seasonal Competitions**: 3-month cycles with escalating rewards
-- **Achievement Badges**: NFT-based milestones and accomplishments
-- **Social Leaderboards**: Community-driven competitive learning
+## Quick Start
 
-### 💰 Reward Economy
-- **Yuzu Points**: Earned through learning activities
-- **CORE Token Conversion**: Points convert to Core tokens
-- **Seasonal Rewards**: Bonus distributions for top performers
-- **NFT Achievements**: On-chain proof of learning milestones
+### For Users
 
-### ⚔️ PvP Quiz Duels (Coming Q2 2024)
-- **Simple Duel Flow**: Connect → Pick Topic → Challenge → Earn
-- **On-Chain Battles**: Direct wallet-to-wallet quiz competitions
-- **Topic Selection**: Choose from Math, Science, Web3, History, and more
-- **Winner Takes All**: Loser pays entry fee, winner gets rewards + opponent's stake
-- **Social Features**: Challenge friends, share results, build reputation
-
-## 🎯 Vision & Roadmap
-
-### Phase 1: Foundation (Q1 2024) ✅
-- [x] Core quiz platform with Farcaster integration
-- [x] Basic reward system and leaderboards
-- [x] Smart contract deployment on Core Testnet
-- [x] Initial user acquisition and testing
-
-### Phase 2: Growth (Q2 2024)
-- [ ] Advanced AI-powered content personalization
-- [ ] **PvP On-Chain Quiz Duels** - Simple duel flow: connect → pick topic → challenge → earn
-- [ ] Multi-chain reward distribution
-- [ ] Mobile app development
-- [ ] Partnership with educational institutions
-
-### Phase 3: Scale (Q3-Q4 2024)
-- [ ] Global expansion with localized content
-- [ ] Advanced analytics and learning insights
-- [ ] Enterprise solutions for organizations
-- [ ] Full DAO governance implementation
-
-### Phase 4: Ecosystem (2025+)
-- [ ] DailyWiser Academy: Educational content marketplace
-- [ ] Cross-chain interoperability
-- [ ] AI-powered learning assistants
-- [ ] Metaverse learning environments
-
-## 🏆 Competitive Advantage
-
-### Why DailyWiser Wins
-1. **First-Mover Advantage**: First learn-to-earn platform on Solana blockchain
-2. **Social Integration**: Native Farcaster integration drives viral growth
-3. **Token Economics**: Sustainable reward model with real utility
-4. **Community-Driven**: User-generated content and governance
-5. **Technical Excellence**: Modern stack with proven scalability
-6. **Real-time Gaming**: Sub-second finality enables live PvP experiences
-7. **Creator Economy**: NFT quizzes with automatic royalty distribution
-
-### Market Positioning
-- **Target Audience**: Web3 learners, crypto enthusiasts, students
-- **Geographic Focus**: Global with emphasis on emerging markets
-- **Revenue Model**: Platform fees, premium features, enterprise solutions
-- **Growth Strategy**: Community-driven with strategic partnerships
-
-## 🔧 Quick Start
-
-### Demo Access
-- **Live Demo**: Navigate to `/demo` route for interactive 4-step demo
-- **Smart Contracts**: All contracts deployed on Core Testnet2 (Chain ID: 1114)
-- **Contract Addresses**: See `src/libs/constants.ts` for deployed addresses
+1. **Visit the Platform**: https://dailywiser-solana.vercel.app/
+2. **Connect Wallet**: Use Phantom, Solflare, or any Solana wallet
+3. **Link Social Account**: Connect Twitter/X for campaign participation
+4. **Start Engaging**:
+   - Join campaigns and earn raffle tickets
+   - Take quizzes and earn SOL rewards
+   - Mint NFTs and build your collection
+   - Join guilds and compete with friends
 
 ### For Developers
+
 ```bash
-# Clone and setup
-git clone https://github.com/your-org/dailywiser.git
-cd dailywiser
+# Clone repository
+git clone https://github.com/your-org/engage-protocol.git
+cd engage-protocol
+
+# Install dependencies
 pnpm install
 
 # Environment setup
 cp .env.example .env.local
-# Configure your environment variables
+# Configure your environment variables:
+# - VITE_SOLANA_RPC_URL
+# - VITE_QUIZ_GAME_PROGRAM_ID
+# - VITE_BACKEND_URL
 
-# Run development
+# Run development server
 pnpm dev
 
 # Smart Contract Development
 cd contracts
-forge build
-forge test
-forge script script/DeployDemoContracts.s.sol --rpc-url https://rpc.test2.btcs.network --broadcast
+anchor build
+anchor test
+anchor deploy --provider.cluster devnet
 ```
 
-### For Users
-1. **Connect Wallet**: Use MetaMask or WalletConnect
-2. **Sign in with Farcaster**: Authenticate your social identity
-3. **Start Learning**: Take daily quizzes and complete quests
-4. **Earn Rewards**: Accumulate points and compete on leaderboards
-5. **Convert to CORE**: Exchange points for Core tokens
+### Environment Variables
 
-### Demo Flow (Available Now)
-1. **Solo Quiz**: Start quiz → Answer questions → Claim rewards
-2. **PvP Duel**: Start duel → Battle with RedStone Oracle → Claim winnings
-3. **Guild System**: Create guild → Contribute treasury → Start battle → Win rewards
-4. **NFT Creator**: Create quiz → Mint as NFT → Earn royalties
+```bash
+# Frontend
+VITE_SOLANA_RPC_URL=https://api.devnet.solana.com
+VITE_QUIZ_GAME_PROGRAM_ID=2wSzeesj4BVQtrzLDSR3YdqZ1nDnDtWV1E8tNpvJimZk
+VITE_BACKEND_URL=https://your-backend.vercel.app
 
-### PvP Quiz Duels Flow (Q2 2024)
-1. **Connect**: Link your wallet and Farcaster account
-2. **Pick Topic**: Choose from Math, Science, Web3, History, etc.
-3. **Challenge**: Send duel invitation to opponent (friend or random)
-4. **Battle**: Both players take same quiz simultaneously
-5. **Earn**: Winner gets entry fee + opponent's stake + bonus rewards
+# Backend (Hono)
+X_CLIENT_ID=your_twitter_client_id
+X_CLIENT_SECRET=your_twitter_client_secret
+X_REDIRECT_URI=http://localhost:5173/twitter
+CEREBRAS_API_KEY=your_cerebras_api_key
+```
+
+## Competitive Advantages
+
+### Why Engage Protocol Wins
+
+1. **Multi-Reward System**: Campaigns, quizzes, NFTs, guilds - multiple ways to earn
+2. **Unlimited Engagement**: No caps on ticket earning or interactions
+3. **Instant Rewards**: Solana's sub-second finality enables real-time payouts
+4. **Low Barrier to Entry**: 0.001 SOL minimum makes it accessible to everyone
+5. **Social Integration**: Native Twitter/X and Farcaster support
+6. **Creator Economy**: NFT quizzes with automatic royalty distribution
+7. **Community Features**: Guilds and collaborative competition
+8. **Transparent**: On-chain verification and reward distribution
+
+### Market Positioning
+
+- **Target Audience**: Web3 enthusiasts, crypto learners, content creators, protocol communities
+- **Geographic Focus**: Global with emphasis on emerging Web3 markets
+- **Revenue Model**: Platform fees, campaign creation fees, NFT marketplace fees
+- **Growth Strategy**: Viral social features + partnership campaigns
+
+## Roadmap
+
+### Phase 1: Foundation (Q1 2024) ✅
+- [x] Campaign raffle system
+- [x] Solo quiz platform with Solana integration
+- [x] NFT minting on Solana Devnet
+- [x] Twitter/X OAuth integration
+- [x] Farcaster Frame support
+- [x] Basic leaderboards
+
+### Phase 2: Social & Competition (Q2 2024)
+- [ ] PvP Quiz Duels with on-chain escrow
+- [ ] Guild system with shared treasuries
+- [ ] Advanced campaign analytics
+- [ ] Mobile-responsive design improvements
+- [ ] Multiple wallet support expansion
+
+### Phase 3: Scale & Monetization (Q3 2024)
+- [ ] Mainnet deployment
+- [ ] Creator marketplace for quiz NFTs
+- [ ] Advanced AI-powered quiz generation
+- [ ] Cross-platform campaign support
+- [ ] Partnership with major Solana protocols
+
+### Phase 4: Ecosystem & DAO (Q4 2024)
+- [ ] DAO governance implementation
+- [ ] Community-driven campaign creation
+- [ ] Cross-chain reward distribution
+- [ ] Enterprise solutions for protocols
+- [ ] Engage Protocol token launch
+
+### Phase 5: Future Vision (2025+)
+- [ ] Engage Academy: Educational content marketplace
+- [ ] AI-powered learning assistants
+- [ ] Metaverse integration
+- [ ] Multi-chain expansion
+- [ ] Global protocol partnerships
+
+## Contributing
+
+We welcome contributions from the community! Whether you're a developer, designer, educator, or Web3 enthusiast, there's a place for you in Engage Protocol.
+
+### Ways to Contribute
+
+- **Code**: Submit PRs for bug fixes, features, or improvements
+- **Content**: Create quiz content for the platform
+- **Design**: Improve UI/UX and user flows
+- **Testing**: Test features and report bugs
+- **Documentation**: Improve docs and tutorials
+- **Community**: Help users and grow the community
+
+### Development Workflow
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+MIT License - See [LICENSE](LICENSE) for details
+
+## Contact & Community
+
+- **Website**: https://dailywiser-solana.vercel.app/
+- **GitHub**: https://github.com/your-org/engage-protocol
+- **Twitter**: Coming soon
+- **Discord**: Coming soon
+- **Email**: Coming soon
+
+## Acknowledgments
+
+Built with love for the Solana ecosystem. Special thanks to:
+
+- Solana Foundation for the incredible blockchain infrastructure
+- Metaplex for NFT standards and tools
+- Phantom, Solflare, and other wallet providers
+- The Web3 education and social communities
+
+---
+
+**Engage Protocol** - Where engagement meets earnings, and learning becomes rewarding.
